@@ -448,3 +448,60 @@ details.ok-group .ok-grid{grid-template-columns:repeat(auto-fill,minmax(155px,1f
 .drawer .tabs{min-height:48px;flex:none;scrollbar-width:thin}
 .drawer .tabs [role="tab"]{font-size:15px;padding:10px 16px}
 .drawer .tabs{overflow-y:hidden;scrollbar-width:none}
+
+/* Guia do Farol: barra lateral esquerda */
+.guide-tab{position:fixed;left:0;top:50%;transform:translateY(-50%);z-index:15;display:flex;flex-direction:column;align-items:center;gap:6px;min-width:44px;min-height:96px;padding:12px 8px;background:var(--brand);color:#fff;border:0;border-radius:0 8px 8px 0;font-weight:600;font-size:13px;box-shadow:var(--shadow);touch-action:manipulation}
+.guide-tab span:last-child{writing-mode:vertical-rl;letter-spacing:.04em}
+.guide-tab:hover{background:#17407a}
+.guide-panel{position:fixed;left:0;top:0;bottom:0;z-index:16;width:min(400px,100%);display:flex;flex-direction:column;background:var(--bg);border-right:1px solid var(--line);box-shadow:8px 0 30px rgba(15,15,15,.12);animation:guide-in .3s ease-out}
+@keyframes guide-in{from{transform:translateX(-24px);opacity:0}to{transform:none;opacity:1}}
+.guide-head{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line)}
+.guide-who-pick{display:flex;align-items:center;gap:8px;min-width:0;flex:1}.guide-who-pick label{font-size:14px;font-weight:600;color:var(--muted)}.guide-who-pick select{flex:1;min-width:0;min-height:44px;border:1px solid var(--line-strong);border-radius:6px;background:var(--bg);color:var(--ink);font-size:16px;padding:0 8px}
+.guide-head-actions{display:flex;gap:4px;flex:none}
+.guide-icon{min-width:44px;min-height:44px;border:1px solid var(--line-strong);border-radius:6px;background:var(--bg);font-size:18px;line-height:1}
+.guide-icon:hover,.guide-icon[aria-pressed="true"]{background:var(--bg-hover)}
+.guide-body{flex:1;min-height:0;overflow-y:auto;padding:16px;display:grid;gap:12px;align-content:start;overscroll-behavior:contain}
+.guide-msg{display:grid;gap:3px;max-width:92%}.guide-msg.me{justify-self:end}
+.guide-who{font-size:12px;font-weight:600;color:var(--muted)}.guide-msg.me .guide-who{justify-self:end}
+.guide-bubble{padding:10px 12px;border-radius:8px;background:var(--bg-soft);border:1px solid var(--line);font-size:15px;line-height:1.55;overflow-wrap:anywhere}
+.guide-msg.me .guide-bubble{background:var(--brand-soft);border-color:#c9d8ee}
+.guide-typing{color:var(--muted)}
+.guide-sub{font-size:16px;font-weight:700}
+.guide-past{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.guide-past button{width:100%;text-align:left;display:grid;gap:2px;min-height:44px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg)}
+.guide-past button:hover{background:var(--bg-soft)}.guide-past small{color:var(--muted);font-size:13px}
+.guide-foot{border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));display:grid;gap:10px;background:var(--bg)}
+.guide-cards{display:flex;flex-wrap:wrap;gap:8px}
+.guide-card{min-height:44px;padding:8px 12px;border:1px solid var(--line-strong);border-radius:8px;background:var(--bg);font-size:14px;font-weight:500;text-align:left}
+.guide-card:hover:not(:disabled){background:var(--brand-soft);border-color:var(--brand)}
+.guide-form{display:flex;gap:8px}.guide-form input{flex:1;min-width:0;min-height:44px;padding:8px 12px;border:1px solid var(--line-strong);border-radius:6px;background:var(--bg);color:var(--ink);font-size:16px}
+.guide-form input:hover{border-color:var(--dim)}
+.guide-note{color:var(--muted);font-size:12px}
+@media(min-width:1100px){body.guide-open #app{margin-left:400px}}
+@media(max-width:560px){.guide-tab{min-height:84px}}
+
+.guide-summary{display:grid;gap:8px}
+.guide-summary-head{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
+.guide-summary h2{font-size:18px;font-weight:700}
+.guide-summary p{font-size:15px;line-height:1.5;margin:0}
+.guide-summary hr{border:0;border-top:1px solid var(--line);margin:4px 0 0;width:100%}
+.guide-ai{font-size:12.5px;font-weight:600;color:#37352f;background:var(--beam);border-radius:999px;padding:4px 12px;white-space:nowrap}
+.guide-src{display:inline;padding:0;border:0;background:none;color:var(--blue);font-weight:500;font-size:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.guide-src:hover{color:var(--brand)}
+.guide-msg.me .guide-bubble{background:var(--brand);color:#fff;border-color:var(--brand);border-radius:10px}
+.guide-msg.bot .guide-bubble{border-radius:10px}
+.guide-form input{border-radius:8px}
+
+/* Caderneta: ícone, cabeçalho e fundo de papel pautado */
+.guide-tab .guide-ico{flex:none}
+.guide-title{display:flex;align-items:center;gap:10px;min-width:0}
+.guide-title .guide-ico{color:var(--brand);flex:none}
+.guide-title h2{font-size:18px;font-weight:800;line-height:1.2}.guide-title p{color:var(--muted);font-size:13px;line-height:1.3}
+.guide-head{align-items:center}
+.guide-who-pick{padding:10px 16px;border-bottom:1px solid var(--line);background:var(--bg-soft)}
+.guide-body{background:repeating-linear-gradient(180deg,transparent 0 31px,#e7eef8 31px 32px);position:relative;padding-left:26px}
+.guide-body::before{content:"";position:absolute;left:14px;top:0;bottom:0;width:2px;background:var(--red-line);opacity:.55;pointer-events:none}
+.guide-body>*{position:relative}
+.guide-summary{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:12px;box-shadow:0 1px 2px rgba(15,15,15,.04)}
+.guide-summary hr{display:none}
+.guide-who-pick{flex:none}.guide-head{flex:none}

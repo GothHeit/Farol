@@ -1,5 +1,6 @@
 """Integration coverage for real SQLite transactions and role boundaries."""
 
+from contextlib import closing
 import copy
 import json
 import sqlite3
@@ -24,7 +25,7 @@ class ServiceTests(unittest.TestCase):
         cls.template_path = Path(cls.template_dir.name) / "template.sqlite3"
         migrate(cls.template_path)
         with connect(cls.template_path) as db:
-            seed(db, password=PASSWORD)
+            seed(db, password=PASSWORD, examples=False)
         db.close()
 
     @classmethod
@@ -424,3 +425,18 @@ class ServiceTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class SeedExamplesTests(unittest.TestCase):
+    def test_examples_fill_mentor_content_and_leave_the_new_student_empty(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path = str(Path(folder) / "farol.sqlite3")
+            migrate(path)
+            with closing(connect(path)) as db, db:
+                seed(db, password=PASSWORD)
+                for table in ("notes", "interventions", "messages", "documents"):
+                    with_content = {r[0] for r in db.execute(f"SELECT DISTINCT student_id FROM {table}")}
+                    self.assertIn("student_beatriz", with_content, table)
+                    self.assertNotIn("student_novo", with_content, table)
+                self.assertTrue(db.execute("SELECT 1 FROM documents WHERE kind='report' AND status='published'").fetchone())
+                self.assertTrue(db.execute("SELECT 1 FROM documents WHERE kind='plan' AND status='draft'").fetchone())

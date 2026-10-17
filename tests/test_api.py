@@ -29,7 +29,7 @@ class HTTPTests(unittest.TestCase):
         cls.template_path = Path(cls.template_dir.name) / "template.sqlite3"
         migrate(cls.template_path)
         with closing(connect(cls.template_path)) as db, db:
-            seed(db, password=PASSWORD)
+            seed(db, password=PASSWORD, examples=False)
 
     @classmethod
     def tearDownClass(cls):

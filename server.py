@@ -83,7 +83,8 @@ class Handler(BaseHTTPRequestHandler):
                 require(self.command in ('GET','HEAD'), 'Método não permitido.', 405)
                 assets = {'/': ('index.html', 'text/html; charset=utf-8'), '/index.html': ('index.html', 'text/html; charset=utf-8'),
                           '/proposta.html': ('proposta.html', 'text/html; charset=utf-8'), '/assets/app.js': ('assets/app.js', 'application/javascript; charset=utf-8'),
-                          '/assets/app.css': ('assets/app.css', 'text/css; charset=utf-8')}
+                          '/assets/app.css': ('assets/app.css', 'text/css; charset=utf-8'),
+                          '/assets/guide.js': ('assets/guide.js', 'application/javascript; charset=utf-8')}
                 require(path in assets, 'Página não encontrada.', 404)
                 filename, content_type = assets[path]
                 return self.respond(200, (ROOT / filename).read_bytes(), content_type=content_type)
