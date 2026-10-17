@@ -64,9 +64,17 @@ Fonte **Inter** (400–800) via Google Fonts, nos dois apps. Corpo 15px/1.55, in
 - **Níveis:** contadores/filtros por nível com ponto colorido e texto; tiles em destaque para Atenção e Prioridade.
 - **Ficha lateral (drawer):** painel branco com cabeçalho fixo, botão de fechar de 44px e fundo escurecido.
 
+- **Cabeçalho enxuto:** só "Olá, Ana." e uma linha com o número de alunos e a última atualização. *Por quê:* textos de boas-vindas não ajudam a decidir.
+- **Painel enxuto:** três números com rótulos curtos; o filtro por nível fica só nos botões coloridos (o seletor repetido saiu); "Variações depois de intervenções" e "Qualidade dos alertas" ficam em "Mais análises", recolhido.
+- **Turma:** alunos "Em dia" ficam recolhidos num grupo ("Em dia (2) · mostrar alunos"), que abre sozinho ao buscar ou filtrar por Em dia. A data de sincronização só aparece quando falta ou está atrasada (2 dias ou mais).
+- **Demonstração:** o aviso virou uma etiqueta "Demonstração" na barra do topo, no lugar da faixa de uma linha inteira.
+- **Triagem simplificada:** "Por que este alerta?" (um sinal por linha, "Agora: X · costuma ser: Y") e "O que você faz com ele?" (anotação opcional, acompanhamento, decidi agir, útil, Salvar). Regra, peso, janela, dados brutos e histórico ficam em "Detalhes técnicos"; alertas anteriores ficam recolhidos.
+- **Ficha em 3 abas:** **Entender** (alertas e panorama), **Agir** (planos e agenda, anotações e intervenções, mensagens; uma seção aberta por vez) e **Relatórios**.
+
 ### Aluno
 - **"O que fazer agora":** card no topo da home com a próxima tarefa pendente (a de prazo mais próximo), matéria, prazo, etiqueta "Alta" quando for o caso e botão "Começar" que leva ao quadro. Sem pendências: "Tudo em dia!" com botão para os estudos. *Por quê:* uma pergunta, uma ação, menos decisão para o aluno.
-- **Contadores e listas** ficam abaixo desse card.
+- **Contadores com ação:** cada número é um link que leva à tela relacionada ("Ver quadro →", "Abrir agenda →"). Ficam abaixo do card "O que fazer agora".
+- **Texto mínimo de 12px** nos dois apps (antes havia 9–11px).
 
 ### Segurança e fonte
 A política de segurança do servidor (`server.py`) passou a permitir `fonts.googleapis.com` (estilos) e `fonts.gstatic.com` (fontes), somente para carregar a Inter.
@@ -83,10 +91,9 @@ Português claro e direto, verbos de ação nos botões ("Começar", "Ver evidê
 
 ## 8. Lacunas conhecidas (ainda não aplicadas)
 
-Itens do documento de design original ou das sugestões que **não** foram implementados:
-- Textos abaixo de 12px ainda existem em trechos do mentor (`.tile .sync`) e do aluno (`.stat-top`, `.checklist label`, `.calendar-event`).
-- Agrupamento da turma por nível com "Em dia" recolhido, callout "Como usar esta tela" e ficha dividida nas quatro caixas do documento.
+- Callout "Como usar esta tela" e ficha dividida nas quatro caixas do documento original.
 - Botão "Pular animação" da varredura e animação de login com giro do facho.
-- Um único botão primário por card no mentor; abas da ficha com nomes por tarefa ("Entender", "Agir", "Histórico").
-- Contadores do aluno com ação associada, prioridades "Hoje / Esta semana / Depois" e estados de carregamento/erro padronizados.
+- Um único botão primário por card no mentor.
+- Prioridades "Hoje / Esta semana / Depois" no aluno.
+- Estados de carregamento e erro: já existem mensagens simples ("Carregando seus dados…", "Tentar novamente"), sem padronização visual própria.
 - `proposta.html` mantém o visual anterior.

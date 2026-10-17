@@ -63,8 +63,8 @@
     const todayEvents = state.events.filter(e => e.date === offset(0) && e.status === 'planned').length;
     const correct = state.attempts.filter(a => a.result === 'correct').length;
     $('#home-stats').innerHTML = [
-      ['Tarefas pendentes', pending, 'no seu quadro', '▦'], ['Concluídas', completed, 'atividades realizadas', '✓'], ['Agenda de hoje', todayEvents, 'compromissos planejados', '▤'], ['Questões certas', correct, 'nesta demonstração', '◉']
-    ].map(([label, value, detail, icon]) => `<div class="stat"><div class="stat-top"><span>${label}</span><span class="stat-icon">${icon}</span></div><strong>${value}</strong><small>${detail}</small></div>`).join('');
+      ['Tarefas pendentes', pending, 'Ver quadro →', '▦', '#kanban'], ['Concluídas', completed, 'Ver o que você fez →', '✓', '#kanban'], ['Agenda de hoje', todayEvents, 'Abrir agenda →', '▤', '#agenda'], ['Questões certas', correct, 'Ir para os estudos →', '◉', '#estudos']
+    ].map(([label, value, detail, icon, href]) => `<a class="stat" href="${href}"><div class="stat-top"><span>${label}</span><span class="stat-icon">${icon}</span></div><strong>${value}</strong><small>${detail}</small></a>`).join('');
     const next = state.tasks.filter(t => t.status !== 'done').sort((a, b) => (a.due || '9999').localeCompare(b.due || '9999'))[0];
     $('#home-now').innerHTML = next
       ? `<span class="eyebrow">O QUE FAZER AGORA</span><h2>${safe(next.title)}</h2><p>${safe(next.subject || 'Estudo')} · ${next.due ? 'para ' + formatDate(next.due) : 'sem prazo'}${next.priority === 'alta' ? ' · <span class="tag alta">Alta</span>' : ''}</p><a href="#kanban" class="button button-primary">Começar</a>`
