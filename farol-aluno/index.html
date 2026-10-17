@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10233f">
+  <meta name="description" content="Farol Aluno: organize estudos, acompanhe sua agenda e consulte orientações publicadas pelo mentor.">
+  <title>Farol Aluno | Seu caminho de estudos</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Menu principal">
+      <a class="brand" href="#inicio" aria-label="Farol Aluno, início"><span class="brand-mark">✦</span><span>farol<span class="brand-dot">.</span><small>ALUNO</small></span></a>
+      <div class="sidebar-label">ESPAÇO DE ESTUDOS</div>
+      <nav class="main-nav" aria-label="Seções">
+        <a href="#inicio" data-nav="inicio"><span class="nav-icon">⌂</span> Início</a>
+        <a href="#kanban" data-nav="kanban"><span class="nav-icon">▦</span> Kanban e checklist</a>
+        <a href="#agenda" data-nav="agenda"><span class="nav-icon">▤</span> Agenda</a>
+        <a href="#estudos" data-nav="estudos"><span class="nav-icon">◉</span> Estudos</a>
+        <a href="#mentor" data-nav="mentor"><span class="nav-icon">✧</span> Mentor</a>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="demo-note"><span class="demo-spark">✦</span><strong>Seu espaço, seu ritmo.</strong><p>Uma visão clara do que você planejou e realizou.</p></div>
+        <div class="profile"><div class="avatar">AL</div><div><strong>Ana Lima</strong><small>Conta de demonstração</small></div></div>
+      </div>
+    </aside>
+
+    <div class="main-wrap">
+      <header class="topbar"><button id="menu-toggle" class="icon-button menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false">☰</button><div class="topbar-title">Seu espaço de estudos <span class="topbar-divider">/</span> <strong id="page-name">Início</strong></div><div class="topbar-right"><span class="demo-pill">● Dados demonstrativos</span><button id="reset-demo" class="text-button" type="button" title="Restaurar os dados iniciais">Reiniciar demo</button></div></header>
+      <main id="main-content">
+        <section id="inicio" class="page" aria-labelledby="inicio-title">
+          <div class="welcome"><div><span class="eyebrow">SEU PAINEL</span><h1 id="inicio-title">Olá, Ana <span class="wave">✦</span></h1><p>Um passo de cada vez. Veja o que você planejou para hoje.</p></div><div class="date-card"><span>HOJE</span><strong id="today-date"></strong></div></div>
+          <div class="stats" id="home-stats"></div>
+          <div class="home-grid"><div class="card"><div class="section-heading"><div><span class="eyebrow">EM FOCO</span><h2>Próximas atividades</h2></div><a href="#kanban" class="inline-link">Ver quadro →</a></div><div id="home-tasks"></div></div><div class="card highlight-card"><div class="section-heading"><div><span class="eyebrow">AGENDA</span><h2>Seus próximos horários</h2></div><a href="#agenda" class="inline-link">Abrir agenda →</a></div><div id="home-agenda"></div></div></div>
+          <div class="card mentor-preview"><div class="mentor-icon">✧</div><div><span class="eyebrow">DO SEU MENTOR</span><h2>Plano publicado para você</h2><p id="home-mentor"></p></div><a href="#mentor" class="button button-dark">Ver orientações <span>→</span></a></div>
+          <div class="card"><div class="section-heading"><div><span class="eyebrow">SUA TRAJETÓRIA</span><h2>Atividade recente</h2></div></div><div id="home-history" class="timeline"></div></div>
+        </section>
+
+        <section id="kanban" class="page" aria-labelledby="kanban-title" hidden><div class="page-intro"><div><span class="eyebrow">ORGANIZAÇÃO</span><h1 id="kanban-title">Seu quadro de estudos</h1><p>Crie cartões, acompanhe cada etapa e marque seus checklists.</p></div><button id="new-task" class="button button-primary" type="button">+ Nova tarefa</button></div><div class="kanban-summary" id="kanban-summary"></div><div class="board" id="board"></div></section>
+
+        <section id="agenda" class="page" aria-labelledby="agenda-title" hidden><div class="page-intro"><div><span class="eyebrow">PLANEJAMENTO</span><h1 id="agenda-title">Sua agenda</h1><p>Organize sessões de estudo, prazos e compromissos.</p></div><button id="new-event" class="button button-primary" type="button">+ Novo compromisso</button></div><div class="toolbar"><div class="segmented" role="group" aria-label="Visualização da agenda"><button type="button" data-view="dia">Dia</button><button type="button" data-view="semana">Semana</button></div><div class="week-controls"><button id="date-prev" class="icon-button" type="button" aria-label="Período anterior">‹</button><strong id="date-range"></strong><button id="date-next" class="icon-button" type="button" aria-label="Próximo período">›</button><button id="date-today" class="text-button" type="button">Hoje</button></div></div><div id="agenda-content"></div></section>
+
+        <section id="estudos" class="page" aria-labelledby="estudos-title" hidden><div class="page-intro"><div><span class="eyebrow">PRÁTICA E APRENDIZADO</span><h1 id="estudos-title">Estudos</h1><p>Resolva questões demonstrativas e registre como foi cada tentativa.</p></div></div><div class="study-grid"><div class="card"><div class="section-heading"><div><span class="eyebrow">QUESTÕES</span><h2>Praticar agora</h2></div><span class="muted" id="question-index"></span></div><div id="question-area"></div></div><div class="card"><span class="eyebrow">SEU REGISTRO</span><h2>Histórico de estudos</h2><div id="study-stats" class="mini-stats"></div><div id="study-history" class="study-history"></div></div></div></section>
+
+        <section id="mentor" class="page" aria-labelledby="mentor-title" hidden><div class="page-intro"><div><span class="eyebrow">ACOMPANHAMENTO</span><h1 id="mentor-title">Orientações do mentor</h1><p>Planos e atividades já publicados por quem acompanha seus estudos.</p></div></div><div class="mentor-header"><div class="mentor-photo">MC</div><div><span class="eyebrow">SUA MENTORA</span><h2>Marina Costa</h2><p>As orientações abaixo foram escritas e publicadas pela mentora.</p></div><span class="published-badge">✓ Publicado</span></div><div id="mentor-content"></div></section>
+      </main>
+      <nav class="bottom-nav" aria-label="Navegação do aplicativo">
+        <a href="#inicio" data-nav="inicio"><span>⌂</span><small>Início</small></a>
+        <a href="#kanban" data-nav="kanban"><span>▦</span><small>Quadro</small></a>
+        <a href="#agenda" data-nav="agenda"><span>▤</span><small>Agenda</small></a>
+        <a href="#estudos" data-nav="estudos"><span>◉</span><small>Estudos</small></a>
+        <a href="#mentor" data-nav="mentor"><span>✧</span><small>Mentor</small></a>
+      </nav>
+    </div>
+  </div>
+
+  <dialog id="task-dialog" class="form-dialog"><form id="task-form"><div class="dialog-head"><div><span class="eyebrow">KANBAN</span><h2 id="task-dialog-title">Nova tarefa</h2></div><button class="icon-button close-dialog" type="button" aria-label="Fechar">×</button></div><input type="hidden" name="id"><label>Título <input name="title" required maxlength="80" placeholder="Ex.: Revisar funções"></label><div class="form-row"><label>Disciplina <input name="subject" maxlength="40" placeholder="Ex.: Matemática"></label><label>Prioridade <select name="priority"><option value="normal">Normal</option><option value="alta">Alta</option></select></label></div><div class="form-row"><label>Prazo <input name="due" type="date"></label><label>Tempo estimado (min) <input name="minutes" type="number" min="1" max="1440" placeholder="45"></label></div><label>Checklist <textarea name="checklist" rows="4" placeholder="Uma etapa por linha"></textarea><small>Escreva uma etapa em cada linha.</small></label><div class="dialog-actions"><button class="button button-ghost close-dialog" type="button">Cancelar</button><button class="button button-primary" type="submit">Salvar tarefa</button></div></form></dialog>
+  <dialog id="event-dialog" class="form-dialog"><form id="event-form"><div class="dialog-head"><div><span class="eyebrow">AGENDA</span><h2 id="event-dialog-title">Novo compromisso</h2></div><button class="icon-button close-dialog" type="button" aria-label="Fechar">×</button></div><input type="hidden" name="id"><label>Título <input name="title" required maxlength="80" placeholder="Ex.: Revisão de Biologia"></label><div class="form-row"><label>Tipo <select name="type"><option value="Estudo">Estudo</option><option value="Encontro">Encontro</option><option value="Prazo">Prazo</option><option value="Pessoal">Pessoal</option></select></label><label>Data <input name="date" type="date" required></label></div><div class="form-row"><label>Horário <input name="time" type="time" required></label><label>Duração (min) <input name="minutes" type="number" min="1" max="1440" value="60" required></label></div><div class="dialog-actions"><button class="button button-ghost close-dialog" type="button">Cancelar</button><button class="button button-primary" type="submit">Salvar compromisso</button></div></form></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
