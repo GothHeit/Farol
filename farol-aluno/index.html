@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#10233f">
+  <meta name="theme-color" content="#ffffff">
   <meta name="description" content="Farol Aluno: organize estudos, acompanhe sua agenda e consulte orientações publicadas pelo mentor.">
   <title>Farol Aluno | Seu caminho de estudos</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"><link rel="stylesheet" href="style.css">
   <script src="app.js" defer></script>
 </head>
 <body>
@@ -33,6 +33,7 @@
       <main id="main-content">
         <section id="inicio" class="page" aria-labelledby="inicio-title">
           <div class="welcome"><div><span class="eyebrow">SEU PAINEL</span><h1 id="inicio-title">Olá, Ana <span class="wave">✦</span></h1><p>Um passo de cada vez. Veja o que você planejou para hoje.</p></div><div class="date-card"><span>HOJE</span><strong id="today-date"></strong></div></div>
+          <div class="card now-card" id="home-now" aria-live="polite"></div>
           <div class="stats" id="home-stats"></div>
           <div class="home-grid"><div class="card"><div class="section-heading"><div><span class="eyebrow">EM FOCO</span><h2>Próximas atividades</h2></div><a href="#kanban" class="inline-link">Ver quadro →</a></div><div id="home-tasks"></div></div><div class="card highlight-card"><div class="section-heading"><div><span class="eyebrow">AGENDA</span><h2>Seus próximos horários</h2></div><a href="#agenda" class="inline-link">Abrir agenda →</a></div><div id="home-agenda"></div></div></div>
           <div class="card mentor-preview"><div class="mentor-icon">✧</div><div><span class="eyebrow">DO SEU MENTOR</span><h2>Plano publicado para você</h2><p id="home-mentor"></p></div><a href="#mentor" class="button button-dark">Ver orientações <span>→</span></a></div>
