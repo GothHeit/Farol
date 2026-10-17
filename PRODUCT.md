@@ -14,7 +14,7 @@ HTML/CSS estático, sem backend e sem build, publicado no GitHub Pages (`index.h
 
 - **Mentor** (usuário do painel): acompanha muitos alunos de mentoria para o ENEM, com informações espalhadas entre presença, simulados, cronograma e mensagens. Precisa saber, no começo da semana, quem precisa de atenção, por quê e o que fazer.
 - **Aluno** (usuário do próximo passo): estudante que se prepara para o ENEM com mentoria, em geral adolescente de escola particular. Recebe números de desempenho, mas não sabe o que mudar na rotina.
-- **Coordenador** (supervisiona os mentores): verifica se os alertas estão sendo atendidos a tempo, quais mentores estão sobrecarregados e se os alertas são úteis. Lê os feedbacks que cada mentor enviou aos alunos; as anotações privadas do mentor não são compartilhadas.
+- **Coordenador** (supervisiona os mentores): verifica se os alertas estão sendo atendidos a tempo, quais mentores estão sobrecarregados e se os alertas são úteis. Lê as anotações de contexto que cada mentor registra sobre os alunos e os feedbacks enviados a eles.
 - **Família**: recebe o relatório semanal quando o aluno é menor de idade, com consentimento. O aluno vê o mesmo conteúdo.
 
 ## Product Purpose
@@ -39,6 +39,7 @@ As mentorias atuais entregam diagnóstico; o Farol entrega a próxima ação e c
 - Dificuldade das questões a partir dos parâmetros TRI dos microdados do ENEM (Inep).
 - O mentor revisa todo alerta antes de qualquer contato com a família.
 - O mentor envia feedback personalizado ao aluno a partir de um rascunho gerado com base nos sinais; os feedbacks enviados ficam num histórico visível para o mentor e para a coordenação.
+- O mentor registra anotações de contexto por aluno (ex.: afastado por motivo de saúde), que formam o histórico do aluno, ficam visíveis para a coordenação e não para o aluno; uma anotação pode ser marcada como explicação dos sinais da semana. Dados de saúde são registrados no mínimo necessário.
 - Linguagem sem rótulos estigmatizantes: "precisa de atenção", nunca "aluno em risco".
 - Protótipo visual: a lógica de score não está implementada; as telas usam dados fixos.
 
