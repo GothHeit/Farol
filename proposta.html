@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Farol · FNMM</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: nautical-chart page — a dark "night sea" hero with a lighthouse beam, then a calm chart-paper column of sections; product mocks sit inline as the evidence. */
+:root {
+  --bg: #eef2f5;
+  --paper: #ffffff;
+  --ink: #13233b;
+  --muted: #55657a;
+  --line: #d3dce5;
+  --beam: #d98a1c;
+  --beam-soft: #fbecd2;
+  --sea: #0f1e33;
+  --sea-ink: #e9eef4;
+  --ok: #2f7d5b;
+  --ok-soft: #dcefe5;
+  --warn: #b5541b;
+  --warn-soft: #f8e3d4;
+  --chip: #e5ebf1;
+  --f-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0b1626; --paper: #12213a; --ink: #e6ecf3; --muted: #9aabbf; --line: #24364f;
+    --beam: #f2b04a; --beam-soft: #3a2c14; --sea: #07101d; --sea-ink: #e9eef4;
+    --ok: #6cc59b; --ok-soft: #173327; --warn: #f0935a; --warn-soft: #3b2214; --chip: #1c2d47;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0b1626; --paper: #12213a; --ink: #e6ecf3; --muted: #9aabbf; --line: #24364f;
+  --beam: #f2b04a; --beam-soft: #3a2c14; --sea: #07101d; --sea-ink: #e9eef4;
+  --ok: #6cc59b; --ok-soft: #173327; --warn: #f0935a; --warn-soft: #3b2214; --chip: #1c2d47;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 17px; line-height: 1.6; }
+.wrap { max-width: 1040px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1, h2, h3 { font-family: var(--f-display); line-height: 1.1; text-wrap: balance; margin: 0; }
+p { margin: 0; }
+.label { font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+
+/* Hero */
+.hero { background: var(--sea); color: var(--sea-ink); position: relative; overflow: hidden; }
+.hero::before {
+  content: ""; position: absolute; top: -30%; right: -10%; width: 90%; height: 160%;
+  background: conic-gradient(from 238deg at 82% 30%, transparent 0deg, rgba(242,176,74,.20) 14deg, rgba(242,176,74,.05) 30deg, transparent 34deg);
+  pointer-events: none;
+}
+.hero .wrap { position: relative; padding-block: 56px 48px; display: grid; gap: 28px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 8px 18px; font-family: var(--f-mono); font-size: 12.5px; letter-spacing: .06em; text-transform: uppercase; color: #a9b8ca; }
+.hero-meta b { color: #f2b04a; font-weight: 500; }
+.brand { display: flex; align-items: center; gap: 14px; }
+.brand svg { width: 44px; height: 44px; flex: none; }
+.brand span { font-family: var(--f-display); font-weight: 800; font-size: 30px; letter-spacing: -.01em; }
+.hero h1 { font-size: clamp(36px, 6.4vw, 68px); font-weight: 800; letter-spacing: -.02em; max-width: 15ch; }
+.hero h1 em { font-style: normal; color: #f2b04a; }
+.hero .lede { font-size: clamp(18px, 2.2vw, 21px); max-width: 58ch; color: #c9d4e1; }
+.hero .lede strong { color: #fff; }
+
+/* Sections */
+section { padding-block: 56px; border-bottom: 1px solid var(--line); }
+section:last-of-type { border-bottom: 0; }
+.sec-head { display: grid; gap: 10px; margin-bottom: 28px; max-width: 70ch; }
+.sec-head h2 { font-size: clamp(28px, 4vw, 40px); font-weight: 700; letter-spacing: -.015em; }
+.sec-head p { color: var(--muted); }
+
+/* Dor */
+.quote { background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 28px clamp(20px, 4vw, 40px); display: grid; gap: 14px; }
+.quote blockquote { margin: 0; font-family: var(--f-display); font-weight: 500; font-size: clamp(22px, 3vw, 30px); line-height: 1.3; letter-spacing: -.01em; }
+.quote blockquote mark { background: var(--beam-soft); color: inherit; padding: 0 .15em; border-radius: 4px; }
+.quote cite { font-style: normal; color: var(--muted); font-size: 15px; }
+.users { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 20px; }
+.user { display: grid; gap: 8px; align-content: start; padding: 20px; border-top: 3px solid var(--ink); background: var(--paper); border-radius: 0 0 10px 10px; }
+.user.primary { border-top-color: var(--beam); }
+.user h3 { font-size: 20px; font-weight: 700; }
+.user p { font-size: 15.5px; color: var(--muted); }
+
+/* Story */
+.story { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.lane { background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 24px; display: grid; gap: 16px; align-content: start; }
+.lane h3 { font-size: 22px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+.lane.with { border-color: var(--beam); box-shadow: 0 0 0 1px var(--beam) inset; }
+.lane.with h3::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--beam); box-shadow: 0 0 0 4px var(--beam-soft); }
+.lane.without h3::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--muted); }
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.steps li { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 12px; font-size: 15.5px; }
+.steps .when { font-family: var(--f-mono); font-size: 12px; color: var(--muted); padding-top: 3px; text-transform: uppercase; letter-spacing: .05em; }
+.value { margin-top: 24px; padding: 24px clamp(20px, 4vw, 32px); background: var(--sea); color: var(--sea-ink); border-radius: 14px; font-family: var(--f-display); font-size: clamp(20px, 2.6vw, 26px); font-weight: 500; line-height: 1.35; }
+.value b { color: #f2b04a; font-weight: 700; }
+.persona-note { margin-top: 10px; font-size: 13.5px; color: var(--muted); }
+
+/* MVP */
+.mvp { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.feat { display: grid; gap: 12px; align-content: start; }
+.feat-head { display: grid; gap: 4px; }
+.feat-head h3 { font-size: 20px; font-weight: 700; }
+.feat-head p { font-size: 15.5px; color: var(--muted); }
+.mock { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 18px; display: grid; gap: 12px; font-size: 15px; box-shadow: 0 1px 0 var(--line), 0 10px 24px -18px rgba(15,30,51,.45); }
+.mock-top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.mock-top strong { font-family: var(--f-display); font-size: 17px; }
+.mock-top .label { font-size: 11px; }
+.task { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 10px; padding-top: 12px; border-top: 1px solid var(--line); }
+.task .n { width: 26px; height: 26px; border-radius: 50%; background: var(--beam-soft); color: var(--beam); font-family: var(--f-mono); font-weight: 500; font-size: 13px; display: grid; place-items: center; }
+.task b { display: block; }
+.task small { display: block; color: var(--muted); font-size: 13.5px; margin-top: 2px; }
+.check { background: var(--ok-soft); color: var(--ok); border-radius: 8px; padding: 10px 12px; font-size: 14px; font-weight: 700; display: flex; gap: 8px; align-items: center; }
+.alert-row { display: grid; gap: 8px; padding-top: 12px; border-top: 1px solid var(--line); }
+.alert-row:first-of-type { border-top: 0; padding-top: 0; }
+.who { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; align-items: baseline; }
+.who b { font-family: var(--f-display); font-size: 16px; }
+.pill { font-family: var(--f-mono); font-size: 11.5px; padding: 3px 8px; border-radius: 999px; background: var(--warn-soft); color: var(--warn); letter-spacing: .02em; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font-size: 13px; padding: 3px 9px; border-radius: 6px; background: var(--chip); color: var(--ink); }
+.suggest { font-size: 14px; color: var(--muted); }
+.suggest b { color: var(--ink); }
+.log { display: grid; gap: 0; }
+.log-item { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 12px; padding-block: 10px; border-top: 1px solid var(--line); font-size: 14.5px; }
+.log-item:first-child { border-top: 0; padding-top: 0; }
+.log-item .when { font-family: var(--f-mono); font-size: 12px; color: var(--muted); padding-top: 2px; }
+.tag-ok { color: var(--ok); font-weight: 700; }
+.report p { font-size: 14.5px; }
+.report .to { display: flex; gap: 6px; flex-wrap: wrap; }
+.report .to span { font-family: var(--f-mono); font-size: 11.5px; padding: 3px 8px; border-radius: 6px; background: var(--chip); }
+
+.facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 28px; }
+.fact { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 20px; display: grid; gap: 10px; align-content: start; }
+.fact h3 { font-size: 17px; font-weight: 700; }
+.fact ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: 15px; }
+.fact p { font-size: 15px; color: var(--muted); }
+
+/* Diferenciais */
+.diff { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; border-top: 2px solid var(--ink); }
+.diff-item { padding: 20px 20px 20px 0; border-bottom: 1px solid var(--line); display: grid; gap: 6px; }
+.diff-item:nth-child(even) { padding-left: 20px; border-left: 1px solid var(--line); }
+.diff-item h3 { font-size: 19px; font-weight: 700; }
+.diff-item p { font-size: 15.5px; color: var(--muted); }
+
+/* Evasão: caminho, detecção, níveis */
+.chain { list-style: none; margin: 0 0 28px; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.chain li { position: relative; display: grid; gap: 6px; align-content: start; padding: 16px 14px; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; font-size: 14px; }
+.chain li:not(:last-child)::after { content: "→"; position: absolute; right: -11px; top: 16px; color: var(--muted); font-size: 14px; z-index: 1; }
+.chain b { font-family: var(--f-display); font-size: 16px; }
+.chain span { color: var(--muted); }
+.chain em { font-style: normal; font-family: var(--f-mono); font-size: 11.5px; color: var(--beam); letter-spacing: .02em; padding-top: 6px; border-top: 1px dashed var(--beam); }
+.chain li.hit { border-color: var(--beam); background: var(--beam-soft); }
+.chain li.hit span { color: var(--ink); }
+.chain li.end { border-color: var(--warn); }
+.chain li.end b { color: var(--warn); }
+.detect { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+.detect-col { display: grid; gap: 14px; align-content: start; }
+.detect-col h3, .quality h3 { font-size: 20px; font-weight: 700; }
+.pipe { margin: 0; padding: 0; list-style: none; counter-reset: p; display: grid; gap: 0; }
+.pipe li { counter-increment: p; display: grid; grid-template-columns: 30px minmax(0, 1fr); column-gap: 12px; padding-block: 12px; border-top: 1px solid var(--line); font-size: 15px; color: var(--muted); }
+.pipe li::before { content: counter(p); grid-row: span 2; width: 26px; height: 26px; border-radius: 50%; background: var(--sea); color: #f2b04a; font-family: var(--f-mono); font-size: 13px; display: grid; place-items: center; }
+.pipe li b { color: var(--ink); display: block; }
+.levels { display: grid; gap: 10px; }
+.lvl { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 12px; align-items: start; font-size: 15px; color: var(--muted); }
+.lvl b { color: var(--ink); }
+.lvl-tag { font-family: var(--f-mono); font-size: 11.5px; text-transform: uppercase; letter-spacing: .05em; text-align: center; padding: 4px 6px; border-radius: 6px; }
+.l1 { background: var(--chip); color: var(--ink); }
+.l2 { background: var(--beam-soft); color: var(--beam); }
+.l3 { background: var(--warn-soft); color: var(--warn); }
+.digest-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.digest-grid div { display: grid; gap: 2px; }
+.digest-grid b { font-family: var(--f-display); font-size: 28px; line-height: 1; font-variant-numeric: tabular-nums; }
+.digest-grid span { font-size: 12.5px; color: var(--muted); line-height: 1.3; }
+.d-l3 { color: var(--warn); } .d-l2 { color: var(--beam); } .d-ok { color: var(--ok); }
+.quality { margin-top: 28px; padding: 24px; border: 1px solid var(--line); border-radius: 14px; background: var(--paper); display: grid; gap: 14px; }
+.quality > p { font-size: 15px; color: var(--muted); }
+.q-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.q-grid div { display: grid; gap: 4px; align-content: start; font-size: 14.5px; }
+.q-grid span { color: var(--muted); }
+.f-mentor { order: 1; } .f-log { order: 2; } .f-aluno { order: 3; } .f-report { order: 4; }
+@media (max-width: 820px) {
+  .chain { grid-template-columns: minmax(0, 1fr); }
+  .chain li:not(:last-child)::after { content: "↓"; right: auto; left: 50%; top: auto; bottom: -15px; }
+  .detect, .q-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+footer { background: var(--sea); color: #a9b8ca; }
+footer .wrap { padding-block: 28px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; font-family: var(--f-mono); font-size: 12.5px; letter-spacing: .05em; text-transform: uppercase; }
+footer b { color: #f2b04a; font-weight: 500; }
+
+@media (max-width: 820px) {
+  .users, .facts { grid-template-columns: minmax(0, 1fr); }
+  .story, .mvp, .diff { grid-template-columns: minmax(0, 1fr); }
+  .diff-item, .diff-item:nth-child(even) { padding: 18px 0; border-left: 0; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hero::before { animation: sweep 9s ease-in-out infinite alternate; transform-origin: 82% 30%; }
+  @keyframes sweep { from { transform: rotate(-4deg); } to { transform: rotate(5deg); } }
+}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-meta">
+      <span>Hackathon PotiCode 2026</span>
+      <span>Case 2 · Engajamento e permanência</span>
+      <span>Equipe <b>FNMM</b></span>
+    </div>
+    <div class="brand">
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <path d="M20 14h8l3 28H17z" fill="#e9eef4"/>
+        <path d="M18.6 24h10.8M17.9 32h12.2" stroke="#0f1e33" stroke-width="2.4"/>
+        <rect x="19" y="8" width="10" height="7" rx="1.5" fill="#f2b04a"/>
+        <path d="M24 4l6 4H18z" fill="#e9eef4"/>
+        <path d="M29 11.5l15-5v10z" fill="#f2b04a" opacity=".55"/>
+        <path d="M12 42h24" stroke="#e9eef4" stroke-width="2.4" stroke-linecap="round"/>
+      </svg>
+      <span>Farol</span>
+    </div>
+    <h1>Errou X, acertou Y. <em>E agora?</em></h1>
+    <p class="lede">Ninguém abandona a mentoria de um dia para o outro: primeiro some a direção, depois o ritmo, depois a resposta. <strong>O Farol detecta esses sinais cedo e avisa o mentor</strong>, mostrando os motivos e sugerindo o que fazer. E dá ao aluno <strong>um próximo passo concreto</strong> toda semana, porque é na falta de direção que o afastamento começa. Proposta para a <strong>AMentoria</strong>.</p>
+  </div>
+</header>
+
+<main>
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="label">O usuário e a dor</span>
+        <h2>O aluno recebe o diagnóstico, mas fica sem direção</h2>
+      </div>
+      <div class="quote">
+        <blockquote>“A mentoria me diz: errei X, acertei Y. Ok, <mark>mas e aí? E agora?</mark> O que eu tenho que adaptar na minha rotina? Como?”</blockquote>
+        <cite>Estudante de mentoria para o ENEM, entrevistado pela equipe hoje</cite>
+      </div>
+      <div class="users">
+        <div class="user primary">
+          <span class="label">Usuário principal</span>
+          <h3>O aluno que se prepara para o ENEM</h3>
+          <p>Em geral, adolescente de escola particular. Recebe números toda semana, não sabe o que mudar e continua estudando do mesmo jeito. A frustração vem antes do afastamento: ele começa a pular as questões difíceis, atrasa o cronograma e para de responder o mentor.</p>
+        </div>
+        <div class="user">
+          <span class="label">Usuário secundário</span>
+          <h3>O mentor</h3>
+          <p>Acompanha muitos alunos com dados espalhados entre presença, simulados, cronograma e mensagens. Quando percebe que um aluno se afastou, já passaram semanas, e as mensagens genéricas que consegue mandar não distinguem um caso do outro.</p>
+        </div>
+        <div class="user">
+          <span class="label">Caso que a mentoria atual não cobre</span>
+          <h3>O adulto que trabalha</h3>
+          <p>Um policial que estuda para medicina. A escala de plantões desorganiza o cronograma, e um aviso de "você está atrasado" não resolve. Para ele não existe relatório aos pais: o acompanhamento é com o próprio aluno.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="label">Cuidado com a evasão</span>
+        <h2>O afastamento dá sinais antes de virar evasão</h2>
+        <p>O Farol acompanha os sinais do dia a dia e age em dois pontos do caminho: antes, com direção para o aluno, e durante, com aviso ao mentor enquanto ainda dá tempo.</p>
+      </div>
+
+      <ol class="chain" aria-label="Caminho até a evasão">
+        <li class="hit"><b>Falta de direção</b><span>“Errei X, acertei Y. E agora?”</span><em>O próximo passo do aluno atua aqui</em></li>
+        <li><b>Frustração</b><span>Estuda igual e não vê resultado</span></li>
+        <li class="hit"><b>Sinais discretos</b><span>Pula as difíceis, atrasa o cronograma, estuda cada vez mais tarde, demora a responder</span><em>O alerta ao mentor atua aqui</em></li>
+        <li><b>Afastamento</b><span>Falta aos encontros e para de acessar</span></li>
+        <li class="end"><b>Evasão</b><span>Cancela a mentoria ou chega ao ENEM despreparado</span></li>
+      </ol>
+
+      <div class="detect">
+        <div class="detect-col">
+          <h3>Como a detecção funciona</h3>
+          <ol class="pipe">
+            <li><b>Coleta sinais simples</b>Presença, cronograma, simulados, questões puladas, tempo por questão, horário de estudo e resposta ao mentor.</li>
+            <li><b>Compara o aluno com ele mesmo</b>Uma queda em relação ao próprio histórico avisa mais cedo que uma nota de corte igual para todos.</li>
+            <li><b>Define o nível de atenção e o perfil provável</b>Sobrecarga, perda de motivação, dificuldade numa área ou trabalho e estudo.</li>
+            <li><b>Avisa o mentor com os motivos</b>Cada alerta lista os sinais que o geraram e sugere uma ação para aquele perfil.</li>
+            <li><b>Confere o resultado</b>Na semana seguinte, o Farol mostra se os sinais melhoraram depois da ação registrada.</li>
+          </ol>
+        </div>
+        <div class="detect-col">
+          <h3>Níveis de atenção</h3>
+          <div class="levels">
+            <div class="lvl"><span class="lvl-tag l1">Observar</span><p><b>Um sinal isolado.</b> Aparece só no resumo semanal do mentor.</p></div>
+            <div class="lvl"><span class="lvl-tag l2">Atenção</span><p><b>Dois ou mais sinais, ou queda por duas semanas.</b> Entra na lista do mentor com uma ação sugerida.</p></div>
+            <div class="lvl"><span class="lvl-tag l3">Prioridade</span><p><b>Sinais fortes:</b> sem acesso há 7 dias, duas faltas seguidas, mensagens sem resposta. O mentor recebe aviso no mesmo dia e decide se envolve a família.</p></div>
+          </div>
+          <div class="mock digest" aria-label="Exemplo do resumo semanal do mentor">
+            <div class="mock-top"><strong>Resumo da semana · Ana</strong><span class="label">Segunda, 8h</span></div>
+            <div class="digest-grid">
+              <div><b class="d-l3">1</b><span>prioridade</span></div>
+              <div><b class="d-l2">3</b><span>atenção</span></div>
+              <div><b class="d-ok">2</b><span>melhoraram após ação</span></div>
+              <div><b>32</b><span>em dia</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="quality">
+        <h3>Como saber se os alertas são bons</h3>
+        <div class="q-grid">
+          <div><b>Falsos alarmes</b><span>Alertas para alunos que estavam bem. Em excesso, o mentor deixa de confiar.</span></div>
+          <div><b>Afastamentos não detectados</b><span>Alunos que se afastaram sem nenhum alerta antes. É o erro mais caro.</span></div>
+          <div><b>Antecedência</b><span>Quantas semanas antes do afastamento o primeiro alerta chegou.</span></div>
+        </div>
+        <p>Medimos os três nos dados sintéticos e, depois, no piloto. O mentor marca cada alerta como útil ou não útil, e os pesos das regras são ajustados com isso.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="label">Proposta de valor</span>
+        <h2>Um mês na vida do Lucas</h2>
+        <p>Lucas tem 17 anos e quer medicina.</p>
+      </div>
+      <div class="story">
+        <div class="lane without">
+          <h3>Hoje</h3>
+          <ol class="steps">
+            <li><span class="when">Semana 1</span><span>Recebe o relatório: 62% de acerto em Natureza. Lê e não sabe o que fazer com isso.</span></li>
+            <li><span class="when">Semana 2</span><span>Continua estudando igual. Começa a pular as questões difíceis de Química.</span></li>
+            <li><span class="when">Semana 3</span><span>Estuda cada vez mais tarde, atrasa o cronograma e deixa duas mensagens do mentor sem resposta.</span></li>
+            <li><span class="when">Semana 4</span><span>O mentor percebe. Lucas já está desmotivado e pensando em sair da mentoria.</span></li>
+          </ol>
+        </div>
+        <div class="lane with">
+          <h3>Com o Farol</h3>
+          <ol class="steps">
+            <li><span class="when">Semana 1</span><span>Recebe <b>seu próximo passo</b>: os erros dele em Química são de conteúdo, concentrados em Estequiometria. Troca um bloco de Humanas, que já está acima da meta, por 40 minutos de Estequiometria.</span></li>
+            <li><span class="when">Semana 2</span><span>O Farol confere: o acerto em Estequiometria subiu de 40% para 55%. Lucas vê que o esforço está funcionando.</span></li>
+            <li><span class="when">Semana 2</span><span>O painel do mentor sinaliza que Lucas está estudando cada vez mais tarde e mostra os motivos do alerta. O mentor conversa com ele sobre a rotina e registra o que fez.</span></li>
+            <li><span class="when">Semana 3</span><span>Os pais recebem um relatório que explica o que está sendo ajustado, e não só as notas. Lucas vê o mesmo relatório.</span></li>
+          </ol>
+        </div>
+      </div>
+      <p class="value">O Farol transforma os dados da mentoria em <b>um próximo passo concreto para o aluno</b> e em <b>alertas antecipados e explicáveis para o mentor</b>. Cada um sabe o que fazer antes de o aluno se afastar.</p>
+      <p class="persona-note">Lucas é uma persona construída a partir da entrevista; os números são ilustrativos.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="label">MVP</span>
+        <h2>Quatro peças, um ciclo: detectar, agir, verificar</h2>
+        <p>Exemplos com dados fictícios.</p>
+      </div>
+      <div class="mvp">
+        <div class="feat f-aluno">
+          <div class="feat-head">
+            <h3>3. Seu próximo passo</h3>
+            <p>Para o aluno, toda semana: de 1 a 3 ações concretas, priorizadas pelo curso que ele quer, pelas áreas fracas e pela causa de cada erro. É a prevenção: o aluno com direção não chega a se frustrar.</p>
+          </div>
+          <div class="mock" aria-label="Exemplo do card do aluno">
+            <div class="mock-top"><strong>Seu próximo passo</strong><span class="label">Semana de 19 a 25/out</span></div>
+            <div class="task"><span class="n">1</span><div><b>Química · Estequiometria</b>Troque o bloco de Humanas de terça às 19h por 40 min de Estequiometria, questões de nível médio.<small>Seus erros aqui são de conteúdo: você leva mais de 4 min por questão e erra. Natureza tem peso alto em medicina.</small></div></div>
+            <div class="task"><span class="n">2</span><div><b>Linguagens · leitura</b>Faça as 10 questões de quinta com cronômetro de 3 min cada.<small>3 dos seus 5 erros foram respondidos em menos de 40 s.</small></div></div>
+            <div class="check">✓ Semana passada: Estequiometria foi de 40% para 55% de acerto</div>
+          </div>
+        </div>
+
+        <div class="feat f-mentor">
+          <div class="feat-head">
+            <h3>1. Painel do mentor</h3>
+            <p>A detecção do afastamento: lista de quem precisa de atenção nesta semana, por nível. Todo alerta mostra os sinais que o geraram e sugere uma ação de acordo com o perfil provável.</p>
+          </div>
+          <div class="mock" aria-label="Exemplo do painel do mentor">
+            <div class="mock-top"><strong>Precisam de atenção</strong><span class="label">4 de 38 alunos</span></div>
+            <div class="alert-row">
+              <div class="who"><b>Lucas S., 17</b><span class="pill">atenção · possível sobrecarga</span></div>
+              <div class="chips"><span class="chip">pulou 8 de 10 difíceis em Química</span><span class="chip">estudo após 23h em 4 de 7 dias</span><span class="chip">2 mensagens sem resposta</span></div>
+              <p class="suggest">Sugestão: <b>conversa sobre a rotina e redução da carga desta semana</b></p>
+            </div>
+            <div class="alert-row">
+              <div class="who"><b>Rafael M., 29</b><span class="pill">atenção · trabalho e estudo</span></div>
+              <div class="chips"><span class="chip">3 prazos perdidos em semana de plantão</span><span class="chip">estuda só nos dias de folga</span></div>
+              <p class="suggest">Sugestão: <b>cronograma ajustado à escala de plantões</b></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="feat f-log">
+          <div class="feat-head">
+            <h3>2. Registro de ação e verificação</h3>
+            <p>O mentor registra o que fez. Na semana seguinte, o Farol mostra se funcionou ou se é preciso tentar outra abordagem.</p>
+          </div>
+          <div class="mock" aria-label="Exemplo do histórico de intervenções">
+            <div class="mock-top"><strong>Lucas S. · histórico</strong><span class="label">Mentora: Ana</span></div>
+            <div class="log">
+              <div class="log-item"><span class="when">14/out</span><span>Alerta: estudo noturno e questões difíceis puladas.</span></div>
+              <div class="log-item"><span class="when">15/out</span><span>Conversa por vídeo. Carga semanal reduzida de 30h para 24h e sono priorizado.</span></div>
+              <div class="log-item"><span class="when">22/out</span><span><span class="tag-ok">Funcionou:</span> estudo antes das 22h em 6 de 7 dias e voltou a tentar as difíceis.</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="feat f-report">
+          <div class="feat-head">
+            <h3>4. Relatório semanal</h3>
+            <p>Personalizado e construtivo. Vai para os pais quando o aluno é menor e para o próprio aluno quando é adulto. O aluno sempre vê o mesmo conteúdo que a família.</p>
+          </div>
+          <div class="mock report" aria-label="Exemplo do relatório semanal">
+            <div class="mock-top"><strong>Semana do Lucas</strong><span class="label">Revisado pela mentora</span></div>
+            <div class="to"><span>para: responsáveis</span><span>cópia: Lucas</span></div>
+            <p>Lucas melhorou em Química depois de mudar a forma de estudar Estequiometria. Nesta semana, o foco é leitura com tempo controlado em Linguagens. Combinamos uma rotina com menos horas tarde da noite; vale apoiar esse horário em casa.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="facts">
+        <div class="fact">
+          <h3>Sinais usados (todos simples)</h3>
+          <ul>
+            <li>Presença nos encontros de mentoria</li>
+            <li>Cumprimento do cronograma</li>
+            <li>Simulados e redações</li>
+            <li>Questões puladas e tempo por questão</li>
+            <li>Tempo de resposta ao mentor</li>
+            <li>Horário de estudo</li>
+          </ul>
+        </div>
+        <div class="fact">
+          <h3>Dados</h3>
+          <p>Para a demonstração, usamos alunos sintéticos. A dificuldade de cada questão vem dos parâmetros da TRI publicados pelo Inep nos microdados do ENEM: dado público e oficial.</p>
+        </div>
+        <div class="fact">
+          <h3>Fora do MVP</h3>
+          <p>Integração direta com outras plataformas, app mobile e modelos preditivos complexos. A primeira versão usa regras com pesos visíveis, para que todo alerta tenha explicação.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="label">Por que o Farol</span>
+        <h2>O que muda em relação a um painel de notas</h2>
+      </div>
+      <div class="diff">
+        <div class="diff-item"><h3>Errou por quê, não só quanto</h3><p>Com um toque, o aluno indica a causa do erro: conteúdo, leitura, descuido ou tempo. O tempo gasto na questão confirma a resposta. Cada causa leva a uma ação diferente.</p></div>
+        <div class="diff-item"><h3>Onde cada hora rende mais pontos</h3><p>A prioridade combina os pesos do SISU para o curso desejado com a TRI: primeiro consolidar as questões fáceis e médias, depois partir para as difíceis.</p></div>
+        <div class="diff-item"><h3>Trocar em vez de acumular</h3><p>O aluno já está sobrecarregado, então o plano propõe trocas de blocos e se ajusta à rotina real dele, incluindo escala de trabalho.</p></div>
+        <div class="diff-item"><h3>Sinal de “evitar o desafio”</h3><p>O sinal acende quando o aluno pula sistematicamente as questões difíceis de um tema durante o estudo. No dia da prova, pular as difíceis é estratégia; o Farol separa os dois casos.</p></div>
+        <div class="diff-item"><h3>Ética e LGPD</h3><p>O mentor revisa todo alerta antes de qualquer ação. A linguagem evita rótulos ("precisa de atenção", nunca "aluno em risco"). Os dados são mínimos e, para menores, há consentimento dos responsáveis.</p></div>
+        <div class="diff-item"><h3>Viável para a AMentoria</h3><p>Usa dados que a mentoria já coleta. As regras são baratas e auditáveis. Começa com um piloto de um grupo de mentores, medindo acertos, falsos alarmes e alunos que ficaram, e reduz o cancelamento de quem paga.</p></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Farol · Equipe <b>FNMM</b></span>
+    <span>Hackathon PotiCode 2026 · Checkpoint 1</span>
+  </div>
+</footer>
+
+</body>
+</html>
