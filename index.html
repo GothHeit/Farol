@@ -251,6 +251,36 @@ button.tile.lit:hover { border-color: var(--ink); }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 @media (max-width: 560px) { .fb { grid-template-columns: auto minmax(0, 1fr); } .fb .st { grid-column: 2; } .fb .txt, .fb .chips { grid-column: 1 / -1; } }
 
+/* ---------- Anotações ---------- */
+.composer textarea.note-ta { min-height: 110px; }
+.check { display: inline-flex; gap: 8px; align-items: center; font-size: 14px; color: var(--muted); cursor: pointer; }
+.check input { accent-color: var(--beam); width: 16px; height: 16px; }
+.st-ctx { color: var(--beam); background: var(--amber-bg); }
+.kind { font-weight: 700; }
+.k-note { color: var(--beam); }
+.k-fb { color: var(--ok); }
+.k-warn { color: var(--warn); }
+.ctx { font-size: 13.5px; line-height: 1.5; background: var(--panel-2); border-radius: 8px; padding: 8px 12px; }
+.ctx b { color: var(--beam); }
+.pend .ctx-line { display: block; margin-top: 4px; font-size: 13px; color: var(--ink); }
+.pend .ctx-line b { color: var(--beam); }
+
+/* ---------- Ficha do mentor ---------- */
+.mrow { cursor: pointer; transition: background .15s; }
+.mrow:hover { background: var(--panel-2); }
+.mentor-link { background: none; border: 0; padding: 0; color: var(--ink); font: inherit; font-weight: 700; text-align: left; cursor: pointer; text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 4px; }
+.mentor-link:hover { text-decoration-color: var(--beam); }
+.mentor-link.sm { font-size: inherit; font-weight: 700; color: inherit; }
+.ctable td.chev { color: var(--muted); width: 28px; }
+.mrow:hover td.chev { color: var(--beam); }
+.m-stats { display: flex; flex-wrap: wrap; gap: 8px; }
+.m-stats .sb { padding: 6px 12px; font-size: 13px; }
+.m-stats .sb b { font-size: 15px; }
+.box-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.box-head small { font-size: 13px; color: var(--muted); }
+.hist-item .chips { margin-top: 4px; }
+.hist-item .chip { font-size: 12px; }
+
 /* ---------- Ficha do aluno ---------- */
 .scrim { position: fixed; inset: 0; background: rgba(2, 6, 12, .6); z-index: 20; }
 .drawer { position: fixed; top: 0; right: 0; bottom: 0; width: min(500px, 100%); z-index: 21; background: var(--sea); border-left: 1px solid var(--line); overflow-y: auto; padding: calc(20px + env(safe-area-inset-top, 0px)) max(20px, env(safe-area-inset-right, 0px)) calc(24px + env(safe-area-inset-bottom, 0px)) 22px; display: grid; gap: 18px; align-content: start; animation: slide .3s ease-out; }
@@ -294,6 +324,7 @@ button.tile.lit:hover { border-color: var(--ink); }
   <defs>
     <symbol id="i-refresh" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 2.6-6.4L3 8"/><path d="M3 3v5h5"/></g></symbol>
     <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="logo" viewBox="6 0 36 96">
       <path d="M17 32h14l4 58H13z" fill="#dfe6ef" stroke="#3d5679" stroke-width="1.2" stroke-linejoin="round"/>
@@ -388,6 +419,7 @@ button.tile.lit:hover { border-color: var(--ink); }
 
     <div class="tabs" role="tablist" aria-label="Seções da mentora">
       <button type="button" role="tab" aria-selected="true" aria-controls="tab-turma" id="t-turma">Turma</button>
+      <button type="button" role="tab" aria-selected="false" aria-controls="tab-notes" id="t-notes">Anotações <span class="count" id="noteCountMentor">0</span></button>
       <button type="button" role="tab" aria-selected="false" aria-controls="tab-fb" id="t-fb">Feedbacks dados <span class="count" id="fbCountMentor">0</span></button>
     </div>
 
@@ -433,6 +465,15 @@ button.tile.lit:hover { border-color: var(--ink); }
       </div>
       <div class="fb-list" id="fbListMentor"></div>
     </div>
+
+    <div class="tabpanel" id="tab-notes" role="tabpanel" aria-labelledby="t-notes" hidden>
+      <div class="fb-tools">
+        <p>Suas anotações sobre o contexto de cada aluno. A coordenação também vê esta lista; o aluno, não.</p>
+        <label class="sr" for="noteSearch">Buscar aluno nas anotações</label>
+        <input class="search" id="noteSearch" type="search" placeholder="Buscar aluno">
+      </div>
+      <div class="fb-list" id="noteListMentor"></div>
+    </div>
   </main>
 
   <main class="wrap" id="coordView" hidden>
@@ -444,12 +485,6 @@ button.tile.lit:hover { border-color: var(--ink); }
       <span class="mono">6 mentores · 214 alunos · dados fictícios</span>
     </div>
 
-    <div class="tabs" role="tablist" aria-label="Seções da coordenação">
-      <button type="button" role="tab" aria-selected="true" aria-controls="ctab-mentores" id="ct-mentores">Mentores</button>
-      <button type="button" role="tab" aria-selected="false" aria-controls="ctab-fb" id="ct-fb">Feedbacks dos mentores <span class="count" id="fbCountCoord">0</span></button>
-    </div>
-
-    <div class="tabpanel" id="ctab-mentores" role="tabpanel" aria-labelledby="ct-mentores">
     <div class="statusbar">
       <span class="sb"><i class="d-p"></i><b>5</b>prioridade</span>
       <span class="sb"><i class="d-a"></i><b>17</b>atenção</span>
@@ -462,28 +497,28 @@ button.tile.lit:hover { border-color: var(--ink); }
         <h2>Mentores</h2>
         <div class="table-scroll">
           <table class="ctable">
-            <thead><tr><th>Mentor</th><th class="num">Alunos</th><th class="num">Prioridade</th><th class="num">Atenção</th><th class="num">Sem ação +3 dias</th><th class="num">Follow-ups atrasados</th><th class="num">Alertas úteis</th><th class="num">Feedbacks enviados</th><th>Situação</th></tr></thead>
+            <thead><tr><th>Mentor</th><th class="num">Alunos</th><th class="num">Prioridade</th><th class="num">Atenção</th><th class="num">Sem ação +3 dias</th><th class="num">Follow-ups atrasados</th><th class="num">Alertas úteis</th><th class="num">Anotações</th><th class="num">Feedbacks enviados</th><th>Situação</th><th><span class="sr">Abrir</span></th></tr></thead>
             <tbody>
-                <tr><td>Ana Souza</td><td class="num">38</td><td class="num">1</td><td class="num">3</td><td class="num">0</td><td class="num">0</td><td class="num">86%</td><td class="num fbc" data-mentor="Ana Souza">0</td><td><span class="st st-ok">Em dia</span></td></tr>
-                <tr><td>Bruno Costa</td><td class="num">35</td><td class="num">2</td><td class="num">4</td><td class="num hot">2</td><td class="num hot">1</td><td class="num">74%</td><td class="num fbc" data-mentor="Bruno Costa">0</td><td><span class="st st-warn">Precisa de apoio</span></td></tr>
-                <tr><td>Carla Dias</td><td class="num">36</td><td class="num">0</td><td class="num">2</td><td class="num">0</td><td class="num">0</td><td class="num">90%</td><td class="num fbc" data-mentor="Carla Dias">0</td><td><span class="st st-ok">Em dia</span></td></tr>
-                <tr><td>Diego Melo</td><td class="num">37</td><td class="num">1</td><td class="num">3</td><td class="num">1</td><td class="num">0</td><td class="num">78%</td><td class="num fbc" data-mentor="Diego Melo">0</td><td><span class="st st-ok">Em dia</span></td></tr>
-                <tr><td>Elisa Rocha</td><td class="num">34</td><td class="num">1</td><td class="num">2</td><td class="num">0</td><td class="num hot">1</td><td class="num">83%</td><td class="num fbc" data-mentor="Elisa Rocha">0</td><td><span class="st st-ok">Em dia</span></td></tr>
-                <tr><td>Fábio Nunes</td><td class="num">34</td><td class="num">0</td><td class="num">3</td><td class="num">1</td><td class="num">0</td><td class="num">80%</td><td class="num fbc" data-mentor="Fábio Nunes">0</td><td><span class="st st-ok">Em dia</span></td></tr>
+                <tr class="mrow" data-mentor="Ana Souza"><td><button class="mentor-link" type="button" data-mentor="Ana Souza">Ana Souza</button></td><td class="num">38</td><td class="num">1</td><td class="num">3</td><td class="num">0</td><td class="num">0</td><td class="num">86%</td><td class="num nc" data-mentor="Ana Souza">0</td><td class="num fbc" data-mentor="Ana Souza">0</td><td><span class="st st-ok">Em dia</span></td><td class="chev"><svg class="ic" aria-hidden="true"><use href="#i-chev"/></svg></td></tr>
+                <tr class="mrow" data-mentor="Bruno Costa"><td><button class="mentor-link" type="button" data-mentor="Bruno Costa">Bruno Costa</button></td><td class="num">35</td><td class="num">2</td><td class="num">4</td><td class="num hot">2</td><td class="num hot">1</td><td class="num">74%</td><td class="num nc" data-mentor="Bruno Costa">0</td><td class="num fbc" data-mentor="Bruno Costa">0</td><td><span class="st st-warn">Precisa de apoio</span></td><td class="chev"><svg class="ic" aria-hidden="true"><use href="#i-chev"/></svg></td></tr>
+                <tr class="mrow" data-mentor="Carla Dias"><td><button class="mentor-link" type="button" data-mentor="Carla Dias">Carla Dias</button></td><td class="num">36</td><td class="num">0</td><td class="num">2</td><td class="num">0</td><td class="num">0</td><td class="num">90%</td><td class="num nc" data-mentor="Carla Dias">0</td><td class="num fbc" data-mentor="Carla Dias">0</td><td><span class="st st-ok">Em dia</span></td><td class="chev"><svg class="ic" aria-hidden="true"><use href="#i-chev"/></svg></td></tr>
+                <tr class="mrow" data-mentor="Diego Melo"><td><button class="mentor-link" type="button" data-mentor="Diego Melo">Diego Melo</button></td><td class="num">37</td><td class="num">1</td><td class="num">3</td><td class="num">1</td><td class="num">0</td><td class="num">78%</td><td class="num nc" data-mentor="Diego Melo">0</td><td class="num fbc" data-mentor="Diego Melo">0</td><td><span class="st st-ok">Em dia</span></td><td class="chev"><svg class="ic" aria-hidden="true"><use href="#i-chev"/></svg></td></tr>
+                <tr class="mrow" data-mentor="Elisa Rocha"><td><button class="mentor-link" type="button" data-mentor="Elisa Rocha">Elisa Rocha</button></td><td class="num">34</td><td class="num">1</td><td class="num">2</td><td class="num">0</td><td class="num hot">1</td><td class="num">83%</td><td class="num nc" data-mentor="Elisa Rocha">0</td><td class="num fbc" data-mentor="Elisa Rocha">0</td><td><span class="st st-ok">Em dia</span></td><td class="chev"><svg class="ic" aria-hidden="true"><use href="#i-chev"/></svg></td></tr>
+                <tr class="mrow" data-mentor="Fábio Nunes"><td><button class="mentor-link" type="button" data-mentor="Fábio Nunes">Fábio Nunes</button></td><td class="num">34</td><td class="num">0</td><td class="num">3</td><td class="num">1</td><td class="num">0</td><td class="num">80%</td><td class="num nc" data-mentor="Fábio Nunes">0</td><td class="num fbc" data-mentor="Fábio Nunes">0</td><td><span class="st st-ok">Em dia</span></td><td class="chev"><svg class="ic" aria-hidden="true"><use href="#i-chev"/></svg></td></tr>
             </tbody>
           </table>
         </div>
-        <p class="hint">"Alertas úteis" é a parte dos alertas que o próprio mentor marcou como úteis. Ajuda a calibrar os pesos das regras.</p>
+        <p class="hint">Clique num mentor para ver os alertas pendentes, as anotações e os feedbacks dele. "Alertas úteis" é a parte dos alertas que o próprio mentor marcou como úteis.</p>
       </section>
 
       <div class="coord-side">
         <section class="panelbox">
           <h2>Alertas sem ação há mais de 3 dias</h2>
           <div class="pending">
-            <div class="pend"><span class="avatar">MT</span><div><b>Marina T.</b><small>Bruno Costa · Prioridade · alerta há 5 dias</small></div><div class="card-actions"><button class="btn-sm solid remind" type="button">Lembrar mentor</button><button class="btn-sm" type="button">Reatribuir</button></div></div>
-            <div class="pend"><span class="avatar">CR</span><div><b>Caio R.</b><small>Bruno Costa · Atenção · alerta há 4 dias</small></div><div class="card-actions"><button class="btn-sm solid remind" type="button">Lembrar mentor</button><button class="btn-sm" type="button">Reatribuir</button></div></div>
-            <div class="pend"><span class="avatar">LS</span><div><b>Lívia S.</b><small>Diego Melo · Atenção · alerta há 4 dias</small></div><div class="card-actions"><button class="btn-sm solid remind" type="button">Lembrar mentor</button><button class="btn-sm" type="button">Reatribuir</button></div></div>
-            <div class="pend"><span class="avatar">OF</span><div><b>Otávio F.</b><small>Fábio Nunes · Atenção · alerta há 6 dias</small></div><div class="card-actions"><button class="btn-sm solid remind" type="button">Lembrar mentor</button><button class="btn-sm" type="button">Reatribuir</button></div></div>
+            <div class="pend"><span class="avatar">MT</span><div><b>Marina T.</b><small><button class="mentor-link sm" type="button" data-mentor="Bruno Costa">Bruno Costa</button> · Prioridade · alerta há 5 dias</small><small class="ctx-line"><b>Anotação de 08/out:</b> afastada por motivo de saúde de 6 a 10/out.</small></div><div class="card-actions"><button class="btn-sm solid remind" type="button">Lembrar mentor</button><button class="btn-sm" type="button">Reatribuir</button></div></div>
+            <div class="pend"><span class="avatar">CR</span><div><b>Caio R.</b><small><button class="mentor-link sm" type="button" data-mentor="Bruno Costa">Bruno Costa</button> · Atenção · alerta há 4 dias</small></div><div class="card-actions"><button class="btn-sm solid remind" type="button">Lembrar mentor</button><button class="btn-sm" type="button">Reatribuir</button></div></div>
+            <div class="pend"><span class="avatar">LS</span><div><b>Lívia S.</b><small><button class="mentor-link sm" type="button" data-mentor="Diego Melo">Diego Melo</button> · Atenção · alerta há 4 dias</small></div><div class="card-actions"><button class="btn-sm solid remind" type="button">Lembrar mentor</button><button class="btn-sm" type="button">Reatribuir</button></div></div>
+            <div class="pend"><span class="avatar">OF</span><div><b>Otávio F.</b><small><button class="mentor-link sm" type="button" data-mentor="Fábio Nunes">Fábio Nunes</button> · Atenção · alerta há 6 dias</small><small class="ctx-line"><b>Anotação de 11/out:</b> viagem com a família de 20 a 24/out.</small></div><div class="card-actions"><button class="btn-sm solid remind" type="button">Lembrar mentor</button><button class="btn-sm" type="button">Reatribuir</button></div></div>
           </div>
         </section>
         <section class="panelbox">
@@ -494,24 +529,8 @@ button.tile.lit:hover { border-color: var(--ink); }
             <dt>Afastamentos sem alerta antes</dt><dd>1</dd>
             <dt>Antecedência média do primeiro alerta</dt><dd>2,4 semanas</dd>
           </dl>
-          <p class="hint">Os feedbacks enviados aos alunos ficam visíveis para a coordenação. As anotações privadas do mentor, não.</p>
-        </section>
+                  </section>
       </div>
-    </div>
-    </div>
-
-    <div class="tabpanel" id="ctab-fb" role="tabpanel" aria-labelledby="ct-fb" hidden>
-      <div class="fb-tools">
-        <p>Feedbacks enviados aos alunos pelos mentores que você coordena.</p>
-        <label class="field-inline" for="fbMentor">Mentor
-          <select class="select" id="fbMentor">
-            <option value="">Todos</option>
-            <option>Ana Souza</option><option>Bruno Costa</option><option>Carla Dias</option>
-            <option>Diego Melo</option><option>Elisa Rocha</option><option>Fábio Nunes</option>
-          </select>
-        </label>
-      </div>
-      <div class="fb-list" id="fbListCoord"></div>
     </div>
   </main>
 </div>
@@ -689,7 +708,66 @@ const FEEDBACKS = [
   "read": false
  }
 ];
+const NOTES = [
+ {
+  "mentor": "Ana Souza",
+  "aluno": "Rafael M.",
+  "date": "13/out",
+  "text": "Rafael avisou que está em escala dobrada de plantões até o dia 20. Combinamos manter só os simulados de sábado nesse período.",
+  "context": true
+ },
+ {
+  "mentor": "Ana Souza",
+  "aluno": "Beatriz A.",
+  "date": "06/out",
+  "text": "Beatriz comentou que está em dúvida entre Direito e Psicologia. Vale retomar a conversa sobre o curso no próximo encontro.",
+  "context": false
+ },
+ {
+  "mentor": "Ana Souza",
+  "aluno": "Lucas S.",
+  "date": "03/out",
+  "text": "Lucas começou um curso de inglês às terças e quintas à noite; a carga da semana aumentou.",
+  "context": false
+ },
+ {
+  "mentor": "Bruno Costa",
+  "aluno": "Marina T.",
+  "date": "08/out",
+  "text": "Marina ficou afastada por motivo de saúde de 6 a 10/out. A queda de acessos dessa semana se explica por isso.",
+  "context": true
+ },
+ {
+  "mentor": "Carla Dias",
+  "aluno": "Bianca M.",
+  "date": "14/out",
+  "text": "Bianca está em semana de provas na escola até o dia 18; o estudo noturno deve normalizar depois.",
+  "context": true
+ },
+ {
+  "mentor": "Diego Melo",
+  "aluno": "Lívia S.",
+  "date": "12/out",
+  "text": "Lívia mudou de casa nesta semana e ficou três dias sem internet.",
+  "context": true
+ },
+ {
+  "mentor": "Elisa Rocha",
+  "aluno": "Clara V.",
+  "date": "09/out",
+  "text": "Clara pediu para focar em Linguagens até o fim do mês.",
+  "context": false
+ },
+ {
+  "mentor": "Fábio Nunes",
+  "aluno": "Otávio F.",
+  "date": "11/out",
+  "text": "Otávio vai viajar com a família de 20 a 24/out; combinamos material para estudar offline.",
+  "context": true
+ }
+];
 const ME = "Ana Souza";
+const dkey = d => d === "hoje" ? 99 : parseInt(d, 10);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const NAMES = ["Ana C.","Bruno L.","Beatriz A.","Camila R.","Carlos E.","Daniel F.","Davi N.","Eduarda P.","Enzo M.","Fernanda T.","Gabriel S.","Giovana B.","Gustavo O.","Helena V.","Igor C.","Isabela M.","João P.","Júlia R.","Larissa G.","Laura F.","Lucas S.","Luiza D.","Marcos A.","Maria C.","Mateus B.","Nicole S.","Pedro H.","Rafael M.","Rebeca L.","Samuel T.","Sofia N.","Thiago R.","Valentina C.","Vinícius P.","Yasmin O.","Arthur G.","Manuela K.","Leonardo V."].sort((a, b) => a.localeCompare(b, "pt"));
 const initials = n => n.split(/\s+/).map(p => p[0]).join("").slice(0, 2).toUpperCase();
@@ -820,12 +898,14 @@ function addCard(n) {
   const c = document.createElement("article");
   c.className = "card" + (f.level === "prio" ? " prio" : "");
   c.dataset.rank = f.level === "prio" ? 0 : 1;
+  c.dataset.name = n;
   c.innerHTML = `
     <div class="card-top"><span class="avatar">${initials(n)}</span>
       <div><b>${n}</b><small>${f.age} anos · ${f.course}</small></div>
       <span class="lvl ${f.level === "prio" ? "prio" : ""}">${f.levelTxt}</span></div>
     <div class="chips">${f.chips.map(c => `<span class="chip">${c}</span>`).join("")}</div>
     <p class="profile">Sinais compatíveis com <b>${f.profile}</b></p>
+    <p class="ctx" ${ctxFor(n) ? "" : "hidden"}>${ctxHtml(n)}</p>
     <div class="card-actions">
       <button class="btn-sm solid" type="button">Dar feedback</button>
       <button class="btn-sm" type="button" data-open>Por que este alerta?</button>
@@ -920,8 +1000,19 @@ function openDrawer(n, focusFb) {
         <button class="btn-primary" id="fbSend" type="button" style="font-size:15px">Enviar feedback</button>
       </div>
     </div>
+    <div class="box composer" id="noteBox">
+      <h3>Anotação sobre ${first}</h3>
+      <p class="hint-sm">Contexto para o histórico do aluno. A coordenação vê; o aluno, não. Registre só o necessário: para saúde, "afastado por motivo de saúde" basta.</p>
+      <label class="sr" for="noteText">Anotação sobre ${first}</label>
+      <textarea id="noteText" class="note-ta" placeholder="Ex.: esteve doente nesta semana e por isso faltou aos encontros."></textarea>
+      <div class="row">
+        <label class="check" for="noteCtx"><input type="checkbox" id="noteCtx">Este contexto explica os sinais da semana</label>
+        <button class="btn-sm solid" id="noteSave" type="button">Salvar anotação</button>
+      </div>
+      <div class="sent" id="noteOk" role="status" hidden><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg><span></span></div>
+    </div>
     <div class="box">
-      <h3>Feedbacks anteriores para ${first}</h3>
+      <h3>Histórico de ${first}</h3>
       <div class="hist" id="hist">${histFor(n)}</div>
     </div>
     <div class="box">
@@ -930,6 +1021,7 @@ function openDrawer(n, focusFb) {
     </div>`;
   drawer.querySelector(".x").addEventListener("click", closeDrawer);
   drawer.querySelector("#fbSend").addEventListener("click", () => sendFeedback(n));
+  drawer.querySelector("#noteSave").addEventListener("click", () => saveNote(n));
   drawer.hidden = false; scrim.hidden = false;
   if (focusFb) {
     const ta = drawer.querySelector("#fbText");
@@ -940,9 +1032,33 @@ function openDrawer(n, focusFb) {
   }
 }
 function histFor(n) {
-  const items = FEEDBACKS.filter(x => x.aluno === n);
-  if (!items.length) return `<p class="hint-sm">Nenhum feedback anterior.</p>`;
-  return items.map(x => `<div class="hist-item"><small>${esc(x.date)} · ${esc(x.mentor)}</small><span>${esc(x.text)}</span></div>`).join("");
+  const items = [
+    ...NOTES.filter(x => x.aluno === n).map(x => ({ ...x, kind: "Anotação", cls: "k-note" })),
+    ...FEEDBACKS.filter(x => x.aluno === n).map(x => ({ ...x, kind: "Feedback", cls: "k-fb" }))
+  ].sort((a, b) => dkey(b.date) - dkey(a.date));
+  if (!items.length) return `<p class="hint-sm">Nenhum registro ainda.</p>`;
+  return items.map(x => `<div class="hist-item"><small><span class="kind ${x.cls}">${x.kind}</span> · ${esc(x.date)} · ${esc(x.mentor)}${x.context ? " · explica os sinais" : ""}</small><span>${esc(x.text)}</span></div>`).join("");
+}
+function ctxFor(n) { return NOTES.find(x => x.aluno === n && x.context); }
+function ctxHtml(n) {
+  const x = ctxFor(n);
+  return x ? `<b>Contexto registrado em ${esc(x.date)}:</b> ${esc(x.text)}` : "";
+}
+function saveNote(n) {
+  const ta = drawer.querySelector("#noteText");
+  const text = ta.value.trim();
+  if (!text) { ta.focus(); ta.placeholder = "Escreva a anotação antes de salvar."; return; }
+  const context = drawer.querySelector("#noteCtx").checked;
+  NOTES.unshift({ mentor: ME, aluno: n, date: "hoje", text, context, fresh: true });
+  ta.value = "";
+  drawer.querySelector("#noteCtx").checked = false;
+  const ok = drawer.querySelector("#noteOk");
+  ok.querySelector("span").textContent = `Anotação salva no histórico de ${n}. A coordenação também vê.`;
+  ok.hidden = false;
+  drawer.querySelector("#hist").innerHTML = histFor(n);
+  const card = list.querySelector(`.card[data-name="${n}"] .ctx`);
+  if (card && ctxFor(n)) { card.innerHTML = ctxHtml(n); card.hidden = false; }
+  renderFeedbacks();
 }
 function lastFor(n) {
   const x = FEEDBACKS.find(y => y.aluno === n);
@@ -997,22 +1113,102 @@ function fbRow(x, showMentor) {
     <div class="chips">${x.basis.map(b => `<span class="chip">${esc(b)}</span>`).join("")}</div>
   </article>`;
 }
+function noteRow(x, showMentor) {
+  const tag = x.context ? `<span class="st st-ctx">Explica os sinais</span>` : `<span></span>`;
+  return `<article class="fb${x.fresh ? " new" : ""}">
+    <span class="avatar">${initials(x.aluno)}</span>
+    <div class="who-line"><b>${esc(x.aluno)}</b><small>${esc(x.date)}${showMentor ? " · " + esc(x.mentor) : ""}</small></div>
+    ${tag}
+    <p class="txt">${esc(x.text)}</p>
+  </article>`;
+}
+function renderNotes() {
+  const q = document.getElementById("noteSearch").value.trim().toLowerCase();
+  const mine = NOTES.filter(x => x.mentor === ME);
+  const shown = mine.filter(x => x.aluno.toLowerCase().includes(q));
+  document.getElementById("noteCountMentor").textContent = mine.length;
+  document.getElementById("noteListMentor").innerHTML = shown.length ? shown.map(x => noteRow(x, false)).join("")
+    : `<p class="fb-empty">Nenhuma anotação para "${esc(q)}".</p>`;
+  document.querySelectorAll(".nc").forEach(td => td.textContent = NOTES.filter(x => x.mentor === td.dataset.mentor).length);
+}
 function renderFeedbacks() {
+  renderNotes();
   const q = document.getElementById("fbSearch").value.trim().toLowerCase();
   const mine = FEEDBACKS.filter(x => x.mentor === ME);
   const shown = mine.filter(x => x.aluno.toLowerCase().includes(q));
   document.getElementById("fbCountMentor").textContent = mine.length;
   document.getElementById("fbListMentor").innerHTML = shown.length ? shown.map(x => fbRow(x, false)).join("")
     : `<p class="fb-empty">Nenhum feedback para "${esc(q)}".</p>`;
-  const m = document.getElementById("fbMentor").value;
-  const all = FEEDBACKS.filter(x => !m || x.mentor === m);
-  document.getElementById("fbCountCoord").textContent = FEEDBACKS.length;
-  document.getElementById("fbListCoord").innerHTML = all.length ? all.map(x => fbRow(x, true)).join("")
-    : `<p class="fb-empty">${esc(m)} ainda não enviou feedbacks.</p>`;
   document.querySelectorAll(".fbc").forEach(td => td.textContent = FEEDBACKS.filter(x => x.mentor === td.dataset.mentor).length);
 }
 document.getElementById("fbSearch").addEventListener("input", renderFeedbacks);
-document.getElementById("fbMentor").addEventListener("change", renderFeedbacks);
+document.getElementById("noteSearch").addEventListener("input", renderNotes);
+const MENTORS = {
+  "Ana Souza":   { alunos: 38, prio: 1, att: 3, semAcao: 0, atrasados: 0, uteis: "86%", ok: true },
+  "Bruno Costa": { alunos: 35, prio: 2, att: 4, semAcao: 2, atrasados: 1, uteis: "74%", ok: false },
+  "Carla Dias":  { alunos: 36, prio: 0, att: 2, semAcao: 0, atrasados: 0, uteis: "90%", ok: true },
+  "Diego Melo":  { alunos: 37, prio: 1, att: 3, semAcao: 1, atrasados: 0, uteis: "78%", ok: true },
+  "Elisa Rocha": { alunos: 34, prio: 1, att: 2, semAcao: 0, atrasados: 1, uteis: "83%", ok: true },
+  "Fábio Nunes": { alunos: 34, prio: 0, att: 3, semAcao: 1, atrasados: 0, uteis: "80%", ok: true }
+};
+const PENDING = [
+  { mentor: "Bruno Costa", aluno: "Marina T.", nivel: "Prioridade", dias: 5 },
+  { mentor: "Bruno Costa", aluno: "Caio R.", nivel: "Atenção", dias: 4 },
+  { mentor: "Diego Melo", aluno: "Lívia S.", nivel: "Atenção", dias: 4 },
+  { mentor: "Fábio Nunes", aluno: "Otávio F.", nivel: "Atenção", dias: 6 }
+];
+function openMentor(name) {
+  const m = MENTORS[name];
+  const pend = PENDING.filter(x => x.mentor === name);
+  const notes = NOTES.filter(x => x.mentor === name);
+  const fbs = FEEDBACKS.filter(x => x.mentor === name);
+  const unread = fbs.filter(x => !x.read).length;
+  drawer.innerHTML = `
+    <div class="drawer-head"><span class="avatar">${initials(name)}</span>
+      <div><h2>${esc(name)}</h2><small>${m.alunos} alunos · ${m.ok ? "em dia" : "precisa de apoio"}</small></div>
+      <button class="x" type="button" aria-label="Fechar"><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></button></div>
+    <div class="m-stats">
+      <span class="sb"><i class="d-p"></i><b>${m.prio}</b>prioridade</span>
+      <span class="sb"><i class="d-a"></i><b>${m.att}</b>atenção</span>
+      <span class="sb${m.semAcao > 1 ? " warn" : ""}"><i class="d-p"></i><b>${m.semAcao}</b>sem ação +3 dias</span>
+      <span class="sb"><i class="d-o"></i><b>${m.atrasados}</b>follow-ups atrasados</span>
+      <span class="sb"><i class="d-k"></i><b>${m.uteis}</b>alertas úteis</span>
+    </div>
+    <div class="box">
+      <div class="box-head"><h3>Alertas sem ação há mais de 3 dias</h3><small>${pend.length}</small></div>
+      <div class="hist">${pend.length ? pend.map(x => {
+        const ctx = NOTES.find(y => y.aluno === x.aluno && y.context);
+        return `<div class="hist-item"><small><span class="kind ${x.nivel === "Prioridade" ? "k-warn" : "k-note"}">${x.nivel}</span> · alerta há ${x.dias} dias</small><span><b>${esc(x.aluno)}</b>${ctx ? ` — anotação de ${esc(ctx.date)}: ${esc(ctx.text)}` : " — sem anotação de contexto."}</span></div>`;
+      }).join("") : `<p class="hint-sm">Nenhum. Todos os alertas desta semana tiveram ação.</p>`}</div>
+      ${pend.length ? `<div class="card-actions"><button class="btn-sm solid remind" type="button">Lembrar mentor</button></div>` : ""}
+    </div>
+    <div class="box">
+      <div class="box-head"><h3>Anotações sobre os alunos</h3><small>${notes.length}</small></div>
+      <div class="hist">${notes.length ? notes.map(x => `<div class="hist-item"><small><b>${esc(x.aluno)}</b> · ${esc(x.date)}${x.context ? ` · <span class="kind k-note">explica os sinais</span>` : ""}</small><span>${esc(x.text)}</span></div>`).join("")
+        : `<p class="hint-sm">Nenhuma anotação registrada.</p>`}</div>
+    </div>
+    <div class="box">
+      <div class="box-head"><h3>Feedbacks enviados aos alunos</h3><small>${fbs.length}${unread ? ` · ${unread} não lido${unread > 1 ? "s" : ""}` : ""}</small></div>
+      <div class="hist">${fbs.length ? fbs.map(x => `<div class="hist-item"><small><b>${esc(x.aluno)}</b> · ${esc(x.date)} · ${x.read ? `<span class="kind k-fb">lido</span>` : "ainda não lido"}</small><span>${esc(x.text)}</span><div class="chips">${x.basis.map(b => `<span class="chip">${esc(b)}</span>`).join("")}</div></div>`).join("")
+        : `<p class="hint-sm">Nenhum feedback enviado.</p>`}</div>
+    </div>`;
+  drawer.querySelector(".x").addEventListener("click", closeDrawer);
+  drawer.hidden = false; scrim.hidden = false;
+  drawer.scrollTop = 0;
+  drawer.querySelector(".x").focus();
+}
+document.getElementById("coordView").addEventListener("click", e => {
+  const link = e.target.closest(".mentor-link");
+  const row = e.target.closest(".mrow");
+  const name = (link || row)?.dataset.mentor;
+  if (name) openMentor(name);
+});
+drawer.addEventListener("click", e => {
+  const b = e.target.closest(".remind");
+  if (!b) return;
+  b.textContent = "Lembrete registrado";
+  b.disabled = true;
+});
 document.querySelectorAll(".tabs").forEach(tabs => tabs.addEventListener("click", e => {
   const b = e.target.closest('[role="tab"]');
   if (!b) return;
