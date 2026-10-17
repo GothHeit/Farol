@@ -2,3 +2,9 @@
 *.pdf
 .impeccable/config.local.json
 .impeccable/hook.cache.json
+__pycache__/
+*.pyc
+data/
+.env
+.venv/
+test-results/

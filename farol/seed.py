@@ -1,0 +1,119 @@
+"""Seed repetível por data, com identidades fictícias e nenhuma orientação pré-escrita."""
+import json
+import os
+import secrets
+from datetime import date, datetime, timedelta, timezone
+
+from .db import now, week, dumps, password_hash, audit
+from .rules import DEFAULT_CONFIG
+from .service import Service
+
+ACCOUNTS = [
+    ('admin', 'admin@farol.local', 'Administradora demo', 'admin'),
+    ('mentor_ana', 'ana@farol.local', 'Ana Souza', 'mentor'),
+    ('mentor_bruno', 'bruno@farol.local', 'Bruno Costa', 'mentor'),
+    ('user_beatriz', 'beatriz@farol.local', 'Beatriz A.', 'student'),
+    ('user_rafael', 'rafael@farol.local', 'Rafael M.', 'student'),
+    ('guardian_beatriz', 'responsavel@farol.local', 'Responsável autorizado · demo', 'student'),
+]
+
+
+def seed(db, password=None, base_date=None):
+    if db.execute('SELECT count(*) FROM users').fetchone()[0]:
+        return {'created': False, 'accounts': [], 'password': None}
+    password = password or os.environ.get('FAROL_DEMO_PASSWORD') or secrets.token_urlsafe(18)
+    if len(password) < 12:
+        raise ValueError('FAROL_DEMO_PASSWORD deve ter pelo menos 12 caracteres; use somente senha sintética.')
+    timestamp = now()
+    for account in ACCOUNTS:
+        db.execute('INSERT INTO users VALUES (?,?,?,?,?,?)', (*account, password_hash(password), timestamp))
+    current_week = date.fromisoformat(week(base_date))
+    students = [
+        ('beatriz', 'Beatriz A.', 16, 'Direito', 'user_beatriz', 8, 'mentor_ana'),
+        ('lucas', 'Lucas S.', 17, 'Medicina', None, 1, 'mentor_ana'),
+        ('pedro', 'Pedro H.', 17, 'Engenharia Civil', None, 1, 'mentor_ana'),
+        ('rafael', 'Rafael M.', 29, 'Medicina', 'user_rafael', 1, 'mentor_ana'),
+        ('daniel', 'Daniel F.', 18, 'Ciência da Computação', None, 1, 'mentor_ana'),
+        ('sofia', 'Sofia N.', 17, 'Biologia', None, 0, 'mentor_ana'),
+        ('igor', 'Igor C.', 19, 'Arquitetura', None, 0, 'mentor_ana'),
+        ('novo', 'Júlia R.', 17, 'Curso ainda não informado', None, None, 'mentor_ana'),
+        ('marina', 'Marina T.', 17, 'Letras', None, 8, 'mentor_bruno'),
+    ]
+    for slug, name, student_age, course, user_id, last_days, mentor_id in students:
+        sid = 'student_' + slug
+        birth = date.today().replace(year=date.today().year - student_age, month=1, day=1).isoformat()
+        last_access = (datetime.now(timezone.utc) - timedelta(days=last_days)).isoformat(timespec='seconds') if last_days is not None else None
+        db.execute('INSERT INTO students VALUES (?,?,?,?,?,?,?,?,?,?,?)',
+            (sid, user_id, name, birth, course, 'Folgas das 09h às 12h' if slug == 'rafael' else 'Segunda a sexta, 18h às 21h',
+             'Escala alternada informada pelo aluno' if slug == 'rafael' else 'Sem restrições informadas',
+             'Terça e quinta, 07h–19h (exemplo sintético)' if slug == 'rafael' else 'Não se aplica',
+             last_access, timestamp if last_days is not None else None, timestamp))
+        db.execute('INSERT INTO mentor_students VALUES (?,?,?)', (mentor_id, sid, timestamp))
+        if slug == 'novo':
+            continue
+        for offset in range(5, -1, -1):
+            period = (current_week - timedelta(weeks=offset)).isoformat()
+            metrics = {'days_since_access': 1, 'consecutive_absences': 0, 'attendance_pct': 100,
+                       'schedule_pct': 90, 'exam_score': 700, 'essay_score': 800,
+                       'skipped_hard_study_pct': 20, 'hard_study_sessions': 2, 'question_seconds': 100,
+                       'late_study_sessions': 1, 'unanswered_messages': 0, 'oldest_unanswered_days': 0,
+                       'task_completion_pct': 80}
+            if offset == 0:
+                metrics['days_since_access'] = last_days
+                if slug in ('beatriz', 'marina'):
+                    metrics.update(consecutive_absences=2, attendance_pct=0, schedule_pct=45)
+                elif slug == 'lucas':
+                    metrics.update(skipped_hard_study_pct=80, schedule_pct=45)
+                elif slug == 'rafael':
+                    metrics.update(schedule_pct=50, exam_score=500)
+                elif slug == 'daniel':
+                    metrics.update(schedule_pct=50)
+            if slug == 'pedro' and offset in (0, 1):
+                metrics.update(schedule_pct=50)
+            sources = []
+            for metric, value in metrics.items():
+                source_id = f'signal_{slug}_{offset}_{metric}'
+                db.execute('INSERT INTO signal_observations VALUES (?,?,?,?,?,?,?,?)',
+                           (source_id, sid, period, 'academic', metric, dumps(value), 'seed sintético v4', period + 'T12:00:00+00:00'))
+                sources.append(source_id)
+            db.execute('INSERT INTO periods VALUES (?,?,?,?,?,?,?)',
+                       (f'period_{slug}_{offset}', sid, period, dumps(metrics), dumps(sources), 'seed sintético v4', timestamp))
+            for kind, score, maximum in [('exam', metrics['exam_score'], 1000), ('essay', metrics['essay_score'], 1000)]:
+                db.execute('INSERT INTO academic_records VALUES (?,?,?,?,?,?,?,?,?)',
+                    (f'{kind}_{slug}_{offset}', sid, period, kind, 'Simulado geral' if kind == 'exam' else 'Redação', score, maximum, 'seed sintético · escala ilustrativa, sem TRI', period + 'T15:00:00+00:00'))
+            for meeting in range(2):
+                db.execute('INSERT INTO attendance VALUES (?,?,?,?,?)',
+                     (f'attend_{slug}_{offset}_{meeting}', sid, (date.fromisoformat(period) + timedelta(days=meeting * 2)).isoformat() + 'T21:00:00+00:00', 0 if offset == 0 and slug in ('beatriz', 'marina') else 1, 'seed sintético v4'))
+        for index in range(5):
+            due_at = (current_week + timedelta(days=index)).isoformat()
+            db.execute('INSERT INTO tasks(id,student_id,plan_id,title,priority,status,due_at,author_id,updated_by,revision,created_at,updated_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
+                (f'task_{slug}_{index}', sid, None, f'Atividade sintética {index + 1} · registro de execução', 'normal',
+                 'done' if index < 4 else 'todo', due_at, user_id or mentor_id, user_id or mentor_id, 1, timestamp, timestamp))
+        agenda_date = (current_week + timedelta(days=3)).isoformat()
+        db.execute('INSERT INTO agenda(id,student_id,title,starts_at,ends_at,author_id) VALUES (?,?,?,?,?,?)',
+                   ('agenda_' + slug, sid, 'Encontro de mentoria · exemplo sintético', agenda_date + 'T18:00:00-03:00', agenda_date + 'T18:30:00-03:00', mentor_id))
+        for context in ('study', 'exam'):
+            for session in range(2):
+                questions = [{'theme': 'Funções' if slug == 'pedro' else 'Estequiometria', 'difficulty': 'hard',
+                              'seconds': 100, 'skipped': i < (8 if slug == 'lucas' and context == 'study' else 2 if context == 'study' else 9),
+                              'correct': False if i % 2 else None, 'error_cause': ('conteudo','leitura','descuido','tempo')[i % 4] if i % 2 else None}
+                             for i in range(10)]
+                db.execute('INSERT INTO study_sessions VALUES (?,?,?,?,?,?,?,?,?,?)',
+                    (f'study_{slug}_{context}_{session}', sid, current_week.isoformat(), context, 'Matemática' if slug == 'pedro' else 'Química',
+                     current_week.isoformat() + f'T{18 if session == 0 else 23}:00:00-03:00', 45, dumps(questions), user_id or mentor_id, 'seed sintético · dificuldade ilustrativa, sem fonte TRI'))
+    db.execute('INSERT INTO report_grants VALUES (?,?,?,?,?)',
+               ('student_beatriz', 'guardian_beatriz', 'user_beatriz', timestamp, None))
+    audit(db, 'user_beatriz', 'report.consent', 'report_grant', 'student_beatriz:guardian_beatriz',
+          'Autorização exclusivamente sintética para demonstrar acesso controlado.', after={'grantee_id': 'guardian_beatriz'})
+    db.execute('INSERT INTO rule_versions VALUES (?,?,?,?,?,?,?,?,?)',
+                ('rules_v1', 'Parâmetros iniciais · demonstração v4', dumps(DEFAULT_CONFIG), 'active', 'admin', timestamp, timestamp, None,
+                 'Valores provisórios sintéticos; mensagens fortes desabilitadas até aprovação explícita.'))
+    service = Service(db)
+    version = service.active_rules()
+    for offset in range(5, -1, -1):
+        period = (current_week - timedelta(weeks=offset)).isoformat()
+        for student in students:
+            service.evaluate_student('student_' + student[0], version, period,
+                                     timestamp if offset == 0 else period + 'T18:00:00+00:00')
+    audit(db, 'admin', 'seed.create', 'dataset', 'synthetic_v4', 'Demonstração local, sem dados de pessoas reais.', after={'students': len(students), 'weeks': 6})
+    return {'created': True, 'accounts': [{'id': a[0], 'email': a[1], 'role': a[3]} for a in ACCOUNTS], 'password': password}

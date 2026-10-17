@@ -127,8 +127,6 @@ section:nth-of-type(even) { background: var(--band); }
 .pill { font-family: var(--f-mono); font-size: 12px; padding: 3px 8px; border-radius: 999px; background: var(--warn-soft); color: var(--warn); }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .chip { font-size: 13px; padding: 3px 9px; border-radius: 6px; background: var(--chip); color: var(--ink); }
-.suggest { font-size: 14px; color: var(--muted); }
-.suggest b { color: var(--ink); }
 .log { display: grid; gap: 0; }
 .log-item { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 12px; padding-top: 12px; padding-bottom: 12px; border-top: 1px solid var(--line); font-size: 14.5px; }
 .log-item:first-child { border-top: 0; }
@@ -186,13 +184,6 @@ section:nth-of-type(even) { background: var(--band); }
 .q-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 .q-grid div { display: grid; gap: 4px; align-content: start; font-size: 14.5px; }
 .q-grid span { color: var(--muted); }
-.f-mentor { order: 1; } .f-log { order: 2; } .f-aluno { order: 3; } .f-report { order: 4; } .f-coord { order: 5; grid-column: 1 / -1; }
-.coord-table { width: 100%; border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; }
-.coord-table th { text-align: left; vertical-align: bottom; font-weight: 700; color: var(--muted); font-size: 13px; padding: 8px 10px; border-bottom: 1px solid var(--line); }
-.coord-table td { padding: 10px; border-bottom: 1px solid var(--line); }
-.coord-table tr:last-child td { border-bottom: 0; }
-.coord-table .num { text-align: right; }
-.coord-table .flag { color: var(--warn); font-weight: 700; }
 .table-scroll { overflow-x: auto; }
 .arch { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 8px; }
 .arch div { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 20px; display: grid; gap: 8px; align-content: start; }
@@ -223,11 +214,7 @@ footer b { color: #f2b04a; font-weight: 500; }
 <body>
 <header class="hero">
   <div class="wrap">
-    <div class="hero-meta">
-      <span>Hackathon PotiCode 2026</span>
-      <span>Case 2 · Engajamento e permanência</span>
-      <span>Equipe <b>FNMM</b></span>
-    </div>
+    <div class="hero-meta"><span>Hackathon PotiCode 2026</span><span>Case 2 · Engajamento e permanência</span><span>Equipe <b>FNMM</b></span></div>
     <div class="brand">
       <svg viewBox="6 0 36 96" aria-hidden="true">
         <path d="M17 32h14l4 58H13z" fill="#dfe6ef" stroke="#3d5679" stroke-width="1.2" stroke-linejoin="round"/>
@@ -241,290 +228,34 @@ footer b { color: #f2b04a; font-weight: 500; }
       </svg>
       <span>Farol</span>
     </div>
-    <h1>Errou X, acertou Y. <em>E agora?</em></h1>
-    <p class="lede">Ninguém abandona a mentoria de um dia para o outro: primeiro some a direção, depois o ritmo, depois a resposta. <strong>O Farol detecta esses sinais cedo e avisa o mentor</strong>, mostrando os motivos e sugerindo o que fazer, enquanto a coordenação acompanha se cada alerta foi atendido. E dá ao aluno <strong>um próximo passo concreto</strong> toda semana, porque é na falta de direção que o afastamento começa. Proposta para a <strong>AMentoria</strong>.</p>
+    <h1>Evidências para <em>quem acompanha.</em></h1>
+    <p class="lede">O Farol reúne fatos sobre os estudos, compara cada aluno com seu próprio histórico e explica os alertas. <strong>O mentor interpreta, decide e escreve as orientações.</strong></p>
+    <p>Visão do Mentor · MVP v4.0 · Demonstração funcional com dados totalmente sintéticos.</p>
+    <p><a href="/" style="color:#f2b04a;font-weight:700">Acessar o Farol →</a></p>
   </div>
 </header>
-
 <main>
-  <section>
-    <div class="wrap">
-      <div class="sec-head">
-        <h2>Usuários e dor</h2>
-        <p class="sec-lede">O aluno recebe o diagnóstico, mas fica sem direção. O mentor e a coordenação só percebem o afastamento tarde.</p>
-      </div>
-      <div class="quote">
-        <blockquote>“A mentoria me diz: errei X, acertei Y. Ok, <mark>mas e aí? E agora?</mark> O que eu tenho que adaptar na minha rotina? Como?”</blockquote>
-        <cite>Estudante de mentoria para o ENEM, entrevistado pela equipe hoje</cite>
-      </div>
-      <div class="users">
-        <div class="user primary">
-          <h3>O aluno que se prepara para o ENEM</h3>
-          <p><b>Usuário principal.</b> Em geral, adolescente de escola particular. Recebe números toda semana, não sabe o que mudar e continua estudando do mesmo jeito. A frustração vem antes do afastamento: ele começa a pular as questões difíceis, atrasa o cronograma e para de responder o mentor.</p>
-        </div>
-        <div class="user">
-          <h3>O mentor</h3>
-          <p><b>Usa o painel toda semana.</b> Acompanha muitos alunos com dados espalhados entre presença, simulados, cronograma e mensagens. Quando percebe que um aluno se afastou, já passaram semanas, e as mensagens genéricas que consegue mandar não distinguem um caso do outro.</p>
-        </div>
-        <div class="user">
-          <h3>O coordenador</h3>
-          <p><b>Supervisiona os mentores.</b> Precisa verificar se os alertas estão sendo atendidos a tempo, quais mentores estão sobrecarregados e se os alertas são úteis. Lê as anotações de contexto que cada mentor registra sobre os alunos (por exemplo, "afastado por motivo de saúde nesta semana") e os feedbacks enviados a eles.</p>
-        </div>
-        <div class="user">
-          <h3>O adulto que trabalha</h3>
-          <p><b>Persona fictícia.</b> Imagine um aluno de 29 anos que trabalha em escala de plantões e estuda para medicina. Os plantões desorganizam o cronograma, e um aviso de "você está atrasado" não resolve. Para ele não existe relatório aos pais: o acompanhamento é com o próprio aluno.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="wrap">
-      <div class="sec-head">
-        <h2>Cuidado com a evasão</h2>
-        <p class="sec-lede">O afastamento dá sinais antes de virar evasão.</p>
-        <p>O Farol acompanha os sinais do dia a dia e age em dois pontos do caminho: antes, com direção para o aluno, e durante, com aviso ao mentor enquanto ainda dá tempo.</p>
-      </div>
-
-      <ol class="chain" aria-label="Caminho até a evasão">
-        <li class="hit"><b>Falta de direção</b><span>“Errei X, acertei Y. E agora?”</span><em>O próximo passo do aluno atua aqui</em></li>
-        <li><b>Frustração</b><span>Estuda igual e não vê resultado</span></li>
-        <li class="hit"><b>Sinais discretos</b><span>Pula as difíceis, atrasa o cronograma, estuda cada vez mais tarde, demora a responder</span><em>O alerta ao mentor atua aqui</em></li>
-        <li><b>Afastamento</b><span>Falta aos encontros e para de acessar</span></li>
-        <li class="end"><b>Evasão</b><span>Cancela a mentoria ou chega ao ENEM despreparado</span></li>
-      </ol>
-
-      <div class="detect">
-        <div class="detect-col">
-          <h3>Como a detecção funciona</h3>
-          <ol class="pipe">
-            <li><b>Coleta sinais simples</b>Presença, cronograma, simulados, questões puladas, tempo por questão, horário de estudo e resposta ao mentor.</li>
-            <li><b>Compara o aluno com ele mesmo</b>Uma queda em relação ao próprio histórico avisa mais cedo que uma nota de corte igual para todos.</li>
-            <li><b>Define o nível de atenção e o perfil provável</b>Sobrecarga, perda de motivação, dificuldade numa área ou trabalho e estudo.</li>
-            <li><b>Avisa o mentor com os motivos</b>Cada alerta lista os sinais que o geraram e sugere uma ação para aquele perfil.</li>
-            <li><b>Confere o resultado</b>Na semana seguinte, o Farol mostra se os sinais melhoraram depois da ação registrada.</li>
-          </ol>
-        </div>
-        <div class="detect-col">
-          <h3>Níveis de atenção</h3>
-          <div class="levels">
-            <div class="lvl"><span class="lvl-tag l1">Observar</span><p><b>Um sinal isolado.</b> Aparece só no resumo semanal do mentor.</p></div>
-            <div class="lvl"><span class="lvl-tag l2">Atenção</span><p><b>Dois ou mais sinais, ou queda por duas semanas.</b> Entra na lista do mentor com uma ação sugerida.</p></div>
-            <div class="lvl"><span class="lvl-tag l3">Prioridade</span><p><b>Sinais fortes:</b> sem acesso há 7 dias, duas faltas seguidas, mensagens sem resposta. O mentor recebe aviso no mesmo dia e decide se envolve a família.</p></div>
-          </div>
-          <div class="mock digest" aria-label="Exemplo do resumo semanal do mentor">
-            <div class="mock-top"><strong>Resumo da semana · Ana</strong><span class="label">Segunda, 8h</span></div>
-            <div class="digest-grid">
-              <div><b class="d-l3">1</b><span>prioridade</span></div>
-              <div><b class="d-l2">3</b><span>atenção</span></div>
-              <div><b class="d-ok">2</b><span>melhoraram após ação</span></div>
-              <div><b>32</b><span>em dia</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="quality">
-        <h3>Como saber se os alertas são bons</h3>
-        <div class="q-grid">
-          <div><b>Falsos alarmes</b><span>Alertas para alunos que estavam bem. Em excesso, o mentor deixa de confiar.</span></div>
-          <div><b>Afastamentos não detectados</b><span>Alunos que se afastaram sem nenhum alerta antes. É o erro mais caro.</span></div>
-          <div><b>Antecedência</b><span>Quantas semanas antes do afastamento o primeiro alerta chegou.</span></div>
-        </div>
-        <p>Medimos os três nos dados sintéticos e, depois, no piloto. O mentor marca cada alerta como útil ou não útil, e os pesos das regras são ajustados com isso.</p>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="wrap">
-      <div class="sec-head">
-        <h2>Proposta de valor</h2>
-        <p class="sec-lede">Um mês na vida do Lucas, que tem 17 anos e quer medicina.</p>
-      </div>
-      <div class="story">
-        <div class="lane without">
-          <h3>Hoje</h3>
-          <ol class="steps">
-            <li><span class="when">Semana 1</span><span>Recebe o relatório: 62% de acerto em Natureza. Lê e não sabe o que fazer com isso.</span></li>
-            <li><span class="when">Semana 2</span><span>Continua estudando igual. Começa a pular as questões difíceis de Química.</span></li>
-            <li><span class="when">Semana 3</span><span>Estuda cada vez mais tarde, atrasa o cronograma e deixa duas mensagens do mentor sem resposta.</span></li>
-            <li><span class="when">Semana 4</span><span>O mentor percebe. Lucas já está desmotivado e pensando em sair da mentoria.</span></li>
-          </ol>
-        </div>
-        <div class="lane with">
-          <h3>Com o Farol</h3>
-          <ol class="steps">
-            <li><span class="when">Semana 1</span><span>Recebe <b>seu próximo passo</b>: os erros dele em Química são de conteúdo, concentrados em Estequiometria. Troca um bloco de Humanas, que já está acima da meta, por 40 minutos de Estequiometria.</span></li>
-            <li><span class="when">Semana 2</span><span>O Farol confere: o acerto em Estequiometria subiu de 40% para 55%. Lucas vê que o esforço está funcionando.</span></li>
-            <li><span class="when">Semana 2</span><span>O painel do mentor sinaliza que Lucas está estudando cada vez mais tarde e mostra os motivos do alerta. O mentor conversa com ele sobre a rotina e registra o que fez.</span></li>
-            <li><span class="when">Semana 3</span><span>Os pais recebem um relatório que explica o que está sendo ajustado, e não só as notas. Lucas vê o mesmo relatório.</span></li>
-          </ol>
-        </div>
-      </div>
-      <p class="value">O Farol transforma os dados da mentoria em <b>um próximo passo concreto para o aluno</b> e em <b>alertas antecipados e explicáveis para o mentor</b>. Cada um sabe o que fazer antes de o aluno se afastar.</p>
-      <p class="persona-note">Lucas é uma persona construída a partir da entrevista; os números são ilustrativos.</p>
-    </div>
-  </section>
-
-  <section>
-    <div class="wrap">
-      <div class="sec-head">
-        <h2>MVP</h2>
-        <p class="sec-lede">Cinco peças num ciclo semanal: detectar, agir, verificar e supervisionar.</p>
-        <p>Exemplos com dados fictícios.</p>
-      </div>
-      <div class="mvp">
-        <div class="feat f-aluno">
-          <div class="feat-head">
-            <h3>3. Seu próximo passo</h3>
-            <p>Para o aluno, toda semana: de 1 a 3 ações concretas, priorizadas pelo curso que ele quer, pelas áreas fracas e pela causa de cada erro. É a prevenção: o aluno com direção não chega a se frustrar.</p>
-          </div>
-          <div class="mock" aria-label="Exemplo do card do aluno">
-            <div class="mock-top"><strong>Seu próximo passo</strong><span class="label">Semana de 19 a 25/out</span></div>
-            <div class="task"><span class="n">1</span><div><b>Química · Estequiometria</b>Troque o bloco de Humanas de terça às 19h por 40 min de Estequiometria, questões de nível médio.<small>Seus erros aqui são de conteúdo: você leva mais de 4 min por questão e erra. Natureza tem peso alto em medicina.</small></div></div>
-            <div class="task"><span class="n">2</span><div><b>Linguagens · leitura</b>Faça as 10 questões de quinta com cronômetro de 3 min cada.<small>3 dos seus 5 erros foram respondidos em menos de 40 s.</small></div></div>
-            <div class="check">✓ Semana passada: Estequiometria foi de 40% para 55% de acerto</div>
-          </div>
-        </div>
-
-        <div class="feat f-mentor">
-          <div class="feat-head">
-            <h3>1. Painel do mentor</h3>
-            <p>A detecção do afastamento: lista de quem precisa de atenção nesta semana, por nível. Todo alerta mostra os sinais que o geraram e sugere uma ação de acordo com o perfil provável.</p>
-          </div>
-          <div class="mock" aria-label="Exemplo do painel do mentor">
-            <div class="mock-top"><strong>Precisam de atenção</strong><span class="label">4 de 38 alunos</span></div>
-            <div class="alert-row">
-              <div class="who"><b>Lucas S., 17</b><span class="pill">atenção · possível sobrecarga</span></div>
-              <div class="chips"><span class="chip">pulou 8 de 10 difíceis em Química</span><span class="chip">estudo após 23h em 4 de 7 dias</span><span class="chip">2 mensagens sem resposta</span></div>
-              <p class="suggest">Sugestão: <b>conversa sobre a rotina e redução da carga desta semana</b></p>
-            </div>
-            <div class="alert-row">
-              <div class="who"><b>Rafael M., 29</b><span class="pill">atenção · trabalho e estudo</span></div>
-              <div class="chips"><span class="chip">3 prazos perdidos em semana de plantão</span><span class="chip">estuda só nos dias de folga</span></div>
-              <p class="suggest">Sugestão: <b>cronograma ajustado à escala de plantões</b></p>
-            </div>
-          </div>
-        </div>
-
-        <div class="feat f-log">
-          <div class="feat-head">
-            <h3>2. Registro de ação e verificação</h3>
-            <p>O mentor envia ao aluno um feedback personalizado, a partir de um rascunho escrito com base nos sinais, consulta todos os feedbacks já dados numa aba própria e registra anotações de contexto que formam o histórico de cada aluno. Na semana seguinte, o Farol mostra se funcionou ou se é preciso tentar outra abordagem.</p>
-          </div>
-          <div class="mock" aria-label="Exemplo do histórico de intervenções">
-            <div class="mock-top"><strong>Lucas S. · histórico</strong><span class="label">Mentora: Ana</span></div>
-            <div class="log">
-              <div class="log-item"><span class="when">14/out</span><span>Alerta: estudo noturno e questões difíceis puladas.</span></div>
-              <div class="log-item"><span class="when">15/out</span><span>Conversa por vídeo. Carga semanal reduzida de 30h para 24h e sono priorizado.</span></div>
-              <div class="log-item"><span class="when">22/out</span><span><span class="tag-ok">Funcionou:</span> estudo antes das 22h em 6 de 7 dias e voltou a tentar as difíceis.</span></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="feat f-report">
-          <div class="feat-head">
-            <h3>4. Relatório semanal</h3>
-            <p>Personalizado e construtivo. Vai para os pais quando o aluno é menor e para o próprio aluno quando é adulto. O aluno sempre vê o mesmo conteúdo que a família.</p>
-          </div>
-          <div class="mock report" aria-label="Exemplo do relatório semanal">
-            <div class="mock-top"><strong>Semana do Lucas</strong><span class="label">Revisado pela mentora</span></div>
-            <div class="to"><span>para: responsáveis</span><span>cópia: Lucas</span></div>
-            <p>Lucas melhorou em Química depois de mudar a forma de estudar Estequiometria. Nesta semana, o foco é leitura com tempo controlado em Linguagens. Combinamos uma rotina com menos horas tarde da noite; vale apoiar esse horário em casa.</p>
-          </div>
-        </div>
-
-        <div class="feat f-coord">
-          <div class="feat-head">
-            <h3>5. Visão da coordenação</h3>
-            <p>Para quem supervisiona os mentores: quantos alertas cada um tem, quais estão sem ação há mais de 3 dias, follow-ups atrasados e quanto os mentores consideram os alertas úteis. Ao clicar num mentor, a coordenação abre a ficha dele: alertas pendentes, anotações de contexto sobre os alunos e feedbacks enviados, para entender um alerta antes de cobrar alguém.</p>
-          </div>
-          <div class="mock" aria-label="Exemplo da visão da coordenação">
-            <div class="mock-top"><strong>Mentores · semana de 19 a 25/out</strong><span class="label">6 mentores · 214 alunos</span></div>
-            <div class="table-scroll">
-              <table class="coord-table">
-                <thead><tr><th>Mentor</th><th class="num">Alunos</th><th class="num">Prioridade</th><th class="num">Atenção</th><th class="num">Sem ação há +3 dias</th><th class="num">Alertas úteis</th></tr></thead>
-                <tbody>
-                  <tr><td>Ana Souza</td><td class="num">38</td><td class="num">1</td><td class="num">3</td><td class="num">0</td><td class="num">86%</td></tr>
-                  <tr><td>Bruno Costa</td><td class="num">35</td><td class="num">2</td><td class="num">4</td><td class="num flag">2</td><td class="num">74%</td></tr>
-                  <tr><td>Carla Dias</td><td class="num">36</td><td class="num">0</td><td class="num">2</td><td class="num">0</td><td class="num">90%</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="facts">
-        <div class="fact">
-          <h3>Sinais usados (todos simples)</h3>
-          <ul>
-            <li>Presença nos encontros de mentoria</li>
-            <li>Cumprimento do cronograma</li>
-            <li>Simulados e redações</li>
-            <li>Questões puladas e tempo por questão</li>
-            <li>Tempo de resposta ao mentor</li>
-            <li>Horário de estudo</li>
-          </ul>
-        </div>
-        <div class="fact">
-          <h3>Dados</h3>
-          <p>Para a demonstração, usamos alunos sintéticos. A dificuldade de cada questão vem dos parâmetros da TRI publicados pelo Inep nos microdados do ENEM: dado público e oficial.</p>
-        </div>
-        <div class="fact">
-          <h3>Fora do MVP</h3>
-          <p>Integração direta com outras plataformas, app mobile e modelos preditivos complexos. A primeira versão usa regras com pesos visíveis, para que todo alerta tenha explicação.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="wrap">
-      <div class="sec-head">
-        <h2>Por que o Farol</h2>
-        <p class="sec-lede">O que muda em relação a um painel de notas.</p>
-      </div>
-      <div class="diff">
-        <div class="diff-item"><h3>Errou por quê, não só quanto</h3><p>Com um toque, o aluno indica a causa do erro: conteúdo, leitura, descuido ou tempo. O tempo gasto na questão confirma a resposta. Cada causa leva a uma ação diferente.</p></div>
-        <div class="diff-item"><h3>Onde cada hora rende mais pontos</h3><p>A prioridade combina os pesos do SISU para o curso desejado com a TRI: primeiro consolidar as questões fáceis e médias, depois partir para as difíceis.</p></div>
-        <div class="diff-item"><h3>Trocar em vez de acumular</h3><p>O aluno já está sobrecarregado, então o plano propõe trocas de blocos e se ajusta à rotina real dele, incluindo escala de trabalho.</p></div>
-        <div class="diff-item"><h3>Sinal de “evitar o desafio”</h3><p>O sinal acende quando o aluno pula sistematicamente as questões difíceis de um tema durante o estudo. No dia da prova, pular as difíceis é estratégia; o Farol separa os dois casos.</p></div>
-        <div class="diff-item"><h3>Ética e LGPD</h3><p>O mentor revisa todo alerta antes de qualquer ação. A linguagem evita rótulos ("precisa de atenção", nunca "aluno em risco"). Os dados são mínimos e, para menores, há consentimento dos responsáveis.</p></div>
-        <div class="diff-item"><h3>Viável para a AMentoria</h3><p>Usa dados que a mentoria já coleta. As regras são baratas e auditáveis. Começa com um piloto de um grupo de mentores, medindo acertos, falsos alarmes e alunos que ficaram, e reduz o cancelamento de quem paga.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="wrap">
-      <div class="sec-head">
-        <h2>Arquitetura</h2>
-        <p class="sec-lede">Três padrões de projeto mantêm o motor simples, explicável e fácil de mudar.</p>
-      </div>
-      <ol class="chain" aria-label="Caminho de um sinal até o alerta">
-        <li><b>Coleta</b><span>Presença, cronograma, simulados, questões, mensagens</span></li>
-        <li><b>Normalização</b><span>Compara cada sinal com o histórico do aluno</span></li>
-        <li class="hit"><b>Regras</b><span>Cada sinal soma pontos e explica o motivo</span></li>
-        <li><b>Nível e perfil</b><span>Observar, Atenção ou Prioridade, mais o perfil provável</span></li>
-        <li class="hit"><b>Alerta publicado</b><span>Painel do mentor, coordenação e relatório semanal</span></li>
-      </ol>
-      <div class="arch">
-        <div><h3>Pipes and Filters</h3><p>Os sinais passam por etapas independentes: coleta, normalização, regras e classificação. Cada etapa pode ser testada e trocada sem mexer nas outras.</p></div>
-        <div><h3>Strategy</h3><p>Cada regra de sinal e cada perfil é uma estratégia com peso próprio. A mentoria ajusta pesos ou adiciona uma regra nova sem reescrever o motor, e cada regra devolve o motivo que aparece no alerta.</p></div>
-        <div><h3>Observer</h3><p>Quando um alerta é publicado, os interessados são avisados: o painel do mentor, a visão da coordenação e o relatório semanal. Um novo canal, como WhatsApp, entra como mais um observador.</p></div>
-      </div>
-    </div>
-  </section>
+<section><div class="wrap">
+  <div class="sec-head"><p class="label">01 · O contexto</p><h2>Uma semana de estudos, muitos fatos para acompanhar.</h2><p>Presença, tarefas, questões, simulados e mensagens chegam em momentos diferentes. O mentor precisa consultar esse histórico e compreender as evidências antes de decidir.</p></div>
+  <div class="quote"><blockquote>“a mentoria me diz: errei X, acertei Y, ok, mas e aí? e agora? o que eu tenho que adaptar na minha rotina? como?”</blockquote><cite>Depoimento anônimo de aluno entrevistado pela equipe na pesquisa inicial.</cite></div>
+  <div class="users"><article class="user primary"><h3>Mentor</h3><p>Acompanha sua carteira, interpreta os fatos, escreve planos e relatórios, registra intervenções e consulta a evolução dos dados.</p></article><article class="user"><h3>Aluno</h3><p>Consulta o conteúdo publicado pelo mentor e informa a execução de suas atividades. O aplicativo completo de organização é uma integração futura nesta entrega.</p></article><article class="user"><h3>Administrador</h3><p>Configura e valida regras, compara simulações e ativa versões com justificativa e auditoria. A interface desta entrega inclui parametrização, vínculos aluno–mentor e consulta de auditoria.</p></article><article class="user"><h3>Relatórios com acesso controlado</h3><p>Menor e responsáveis autorizados acessam o mesmo relatório. O acompanhamento do adulto é destinado a ele próprio. Responsáveis não constituem uma quarta visão.</p></article></div>
+</div></section>
+<section><div class="wrap">
+  <div class="sec-head"><p class="label">02 · A experiência</p><h2>O Farol organiza. O mentor conduz.</h2><p>A luz do farol apresenta a carteira. A animação não calcula níveis e não condiciona o acesso aos dados.</p></div>
+  <div class="mvp"><article class="feat"><div class="feat-head"><h3>Uma carteira, com contexto</h3><p>Pesquisa, filtros, última atualização e indicação de dados insuficientes. Cada mentor acessa apenas os alunos vinculados a ele.</p></div></article><article class="feat"><div class="feat-head"><h3>Alertas que mostram a origem</h3><p>Valores observados, histórico, janela, limiar, peso e versão de regras permitem conferir a classificação.</p></div></article><article class="feat"><div class="feat-head"><h3>Autoria humana explícita</h3><p>Notas privadas, interpretação, mensagens, intervenções, planos e relatórios começam com campos em branco. O mentor escreve e publica.</p></div></article><article class="feat"><div class="feat-head"><h3>Evolução factual</h3><p>O histórico relaciona os registros do mentor aos dados das semanas seguintes. A interpretação dessa evolução continua sendo do mentor.</p></div></article></div>
+  <div class="value">Dados → sinais e regras → alerta → <b>decisão do mentor</b> → registros posteriores.</div>
+</div></section>
+<section><div class="wrap">
+  <div class="sec-head"><p class="label">03 · Classificação transparente</p><h2>Critérios configuráveis, histórico preservado.</h2><p>Os parâmetros abaixo são exemplos iniciais editáveis pelo Administrador. Cada avaliação usa uma única versão ativa; versões anteriores permanecem consultáveis.</p></div>
+  <div class="detect"><div class="detect-col"><h3>Níveis iniciais</h3><div class="levels"><div class="lvl"><span class="lvl-tag l1">Em dia</span><p>Há evidências disponíveis e nenhuma regra de alerta foi acionada.</p></div><div class="lvl"><span class="lvl-tag l1">Observar</span><p>Um sinal isolado, apresentado no resumo semanal.</p></div><div class="lvl"><span class="lvl-tag l2">Atenção</span><p>Dois sinais distintos ou queda persistente por duas semanas, na fila de acompanhamento.</p></div><div class="lvl"><span class="lvl-tag l3">Prioridade</span><p>Condição forte, como sete dias sem acesso ou duas faltas seguidas. O mentor recebe aviso na central interna no dia da avaliação.</p></div></div><p class="label">Sem dados é uma condição própria: ausência de histórico não vira queda presumida nem “Em dia”.</p></div><div class="detect-col"><h3>Como conferir uma mudança</h3><ol class="pipe"><li><b>Consultar os fatos</b><span>Dados acadêmicos e de execução com origem e período.</span></li><li><b>Examinar a comparação</b><span>Linha de base do próprio aluno, limites e evidências disponíveis.</span></li><li><b>Revisar a classificação</b><span>Regras determinísticas e versão usada na avaliação.</span></li><li><b>Registrar a decisão</b><span>O mentor marca a utilidade do alerta, registra sua interpretação e decide se deseja agir.</span></li></ol></div></div>
+  <div class="quality"><h3>Qualidade exige dados rotulados</h3><p>Falsos alarmes, afastamentos não detectados e antecedência precisam de eventos de referência e definições explícitas. Na ausência desses dados, o Farol informa a insuficiência de evidências. Avaliações de utilidade apoiam revisões manuais das regras.</p></div>
+</div></section>
+<section><div class="wrap">
+  <div class="sec-head"><p class="label">04 · Entrega e limites</p><h2>Uma demonstração funcional e verificável.</h2><p>A aplicação local preserva a identidade visual do protótipo e acrescenta serviços persistentes para a interface. Todos os registros de demonstração são sintéticos.</p></div>
+  <div class="arch"><article><h3>Mentoria e persistência</h3><p>Login real, sessão, autorização por vínculo, SQLite e histórico. Publicação significa disponibilização autenticada; não significa envio por e-mail ou outro canal externo.</p></article><article><h3>Regras versionadas</h3><p>Rascunho, validação, simulação, ativação e restauração pela interface administrativa. Simulações não alteram os alertas da carteira.</p></article><article><h3>Integrações delimitadas</h3><p>Contratos para tarefas, agenda e registros do aluno. TRI e pesos oficiais aparecem como indisponíveis enquanto não houver fonte verificada.</p></article></div>
+  <div class="facts"><article class="fact"><h3>Sem autoria automática</h3><p>A plataforma não escreve planos, feedbacks ou intervenções e não atribui perfis psicológicos. Somente o mentor define orientações pedagógicas.</p></article><article class="fact"><h3>Escopo desta entrega</h3><p>Prioridade na experiência diária do mentor e na configuração de regras. Aplicativo móvel completo e gestão administrativa integral permanecem fora desta implementação.</p></article><article class="fact"><h3>Como verificar</h3><p>README e documentação do repositório descrevem execução, testes, contratos, decisões provisórias e a matriz de requisitos implementados, parciais e pendentes.</p></article></div>
+</div></section>
 </main>
-
-<footer>
-  <div class="wrap">
-    <span>Farol · Equipe <b>FNMM</b></span>
-    <span>Hackathon PotiCode 2026 · Checkpoint 1</span>
-  </div>
-</footer>
-
+<footer><div class="wrap"><span>Farol · Equipe <b>FNMM</b> · MVP v4.0</span><span>Demonstração sintética · Orientações de autoria do mentor</span></div></footer>
 </body>
 </html>
